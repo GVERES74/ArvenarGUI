@@ -52,11 +52,14 @@ public class Arvenar_View_NPC {
         
         npc_name_textfield.setLayoutX(305); npc_name_textfield.setLayoutY(50);
         npc_name_textfield.setText(clone.bbear1.getFname());
+        npc_name_textfield.setEditable(false); npc_name_textfield.setFocusTraversable(false);
             
         npc_bio_textarea.setLayoutX(100); npc_bio_textarea.setLayoutY(100); npc_bio_textarea.setWrapText(true); npc_bio_textarea.setMaxHeight(100);
         npc_bio_textarea.setText(clone.bbear1.getBiography());
+        npc_bio_textarea.setEditable(false); npc_bio_textarea.setFocusTraversable(false);
         
         npc_stats_textarea.setLayoutX(100); npc_stats_textarea.setLayoutY(220); npc_stats_textarea.setWrapText(true); npc_stats_textarea.setMaxWidth(200.0);
+        npc_stats_textarea.setEditable(false); npc_stats_textarea.setFocusTraversable(false);
         npc_stats_textarea.appendText("Race: "+npcdbase.npc_stats_race.get(i)); 
         npc_stats_textarea.appendText("\nCast: "+npcdbase.npc_stats_cast.get(i)); 
         npc_stats_textarea.appendText("\nHealth: "+npcdbase.npc_stats_maxhealth.get(i));
@@ -82,7 +85,7 @@ public class Arvenar_View_NPC {
         
         panename.getChildren().addAll(choosebutton, cancelbutton, nextbutton, prevbutton, this.npc_name_textfield, this.npc_bio_textarea, npc_imgview, npc_stats_textarea);
                 
-        
+        useArrowKeys();
     //ActionListener block ----------------------------------------------------------------------------------
         
         
@@ -189,7 +192,14 @@ public class Arvenar_View_NPC {
             return npc_name;
         }
         
+        public void useArrowKeys(){
+        scenename.setOnKeyPressed(event ->{
+            switch  (event.getCode()){
+                case RIGHT: nextNpc();break;
+                case LEFT: previousNpc(); break;
+            }
         
+        });
     
-    
+        }
 }

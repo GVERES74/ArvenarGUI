@@ -83,10 +83,19 @@ public class Summon_Characters {
         "Big Bear light can cause serious or lethal damage by his teeth and claws, but mostly avoids human. You can fight him, but you may die...and end up as his meat for dinner.");
         public NPC_Animal_Bear bbear2 = new NPC_Animal_Bear("Big paw", "Grizzly bear", teeth, teeth.getWeapon_say(), 200,"src/img/npc_animal_bbear2.jpg",
         "Big Bear heavy causes lethal damage immediately by his teeth and claws, and mostly attacks human. Avoid him at all costs. You cannot stand a chance!! Run for your life, if you can..");
-            //NPC_Animal_Croco.java
-            //NPC_Animal_Eagle.java
-            //NPC_Animal_Snake.java
-            //NPC_Animal_WildBoar.java*/
+        
+        public NPC_Animal_Croco croco1 = new NPC_Animal_Croco("Hundred teeth", "Crocodile", teeth, teeth.getWeapon_say(), 200,"src/img/npc_animal_croco1.jpg",
+        "One hundred teeth grips anything that comes into them. Crocodiles can be found everything around the lands with swamps, lakes and rivers.");
+        
+        public NPC_Animal_Eagle eagle1 = new NPC_Animal_Eagle("Great wings", "Mountain Eagle", claws, claws.getWeapon_say(), 200,"src/img/npc_animal_eagle1.jpg",
+        "Eagles can attack from a mile high in the sky, and are able to grip and take even a human child. Watch out for them!");
+        
+        public NPC_Animal_Snake snake1 = new NPC_Animal_Snake("Poisoner", "Snake", teeth, teeth.getWeapon_say(), 200,"src/img/npc_animal_snake1.jpg",
+        "Snakes usually avoid contact with other species, apart from their lunch. Their poison can though be lethal, so you better avoid them too!");
+        
+        public NPC_Animal_WildBoar boar1 = new NPC_Animal_WildBoar("Piggy", "WildBoar", teeth, teeth.getWeapon_say(), 200,"src/img/npc_animal_wildboar1.jpg",
+        "Boars live in forests and in open areas. You better avoid them if you have harmed one. Their attack can cause serious damage!!");
+        
 
         
         //Ellenségek - monster

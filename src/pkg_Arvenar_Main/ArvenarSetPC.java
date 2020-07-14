@@ -54,11 +54,15 @@ public class ArvenarSetPC {
         
         character_name_textfield.setLayoutX(305); character_name_textfield.setLayoutY(50);
         character_name_textfield.setText(clone.human_warrior.getFname());
+        character_name_textfield.setEditable(false); character_name_textfield.setFocusTraversable(false);
             
         character_bio_textarea.setLayoutX(100); character_bio_textarea.setLayoutY(100); character_bio_textarea.setWrapText(true); character_bio_textarea.setMaxHeight(100);
         character_bio_textarea.setText(clone.human_warrior.getBiography());
+        character_bio_textarea.setEditable(false); character_bio_textarea.setFocusTraversable(false);
         
         character_stats_textarea.setLayoutX(100); character_stats_textarea.setLayoutY(220); character_stats_textarea.setWrapText(true); character_stats_textarea.setMaxWidth(200.0);
+        character_stats_textarea.setEditable(false); character_stats_textarea.setFocusTraversable(false);
+        
         character_stats_textarea.appendText("Gender: "+cdbase.players_stats_gender.get(i)); 
         character_stats_textarea.appendText("\nAge: "+cdbase.players_stats_age.get(i));
         character_stats_textarea.appendText("\nCast: "+cdbase.players_stats_cast.get(i));
@@ -84,7 +88,8 @@ public class ArvenarSetPC {
         Button prevbutton = new Button("Previous"); prevbutton.setLayoutX(200); prevbutton.setLayoutY(50);
         
         panename.getChildren().addAll(choosebutton, cancelbutton, nextbutton, prevbutton, this.character_name_textfield, this.character_bio_textarea, character_imgview, character_stats_textarea);
-                
+        
+        useArrowKeys();        
         
     //ActionListener block ----------------------------------------------------------------------------------
         //Choose selected hero_name-------------------------------------------------------------------------------
@@ -191,6 +196,15 @@ public class ArvenarSetPC {
             return hero_name;
         }
         
+        public void useArrowKeys(){
+        scenename.setOnKeyPressed(event ->{
+            switch  (event.getCode()){
+                case RIGHT: nextPlayer();break;
+                case LEFT: previousPlayer(); break;
+            }
         
+        });
         
-}       //-----------------------------------------------------------------------------------------------------   
+        }
+        
+        }       //-----------------------------------------------------------------------------------------------------   

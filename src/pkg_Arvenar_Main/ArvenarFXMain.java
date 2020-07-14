@@ -141,7 +141,7 @@ public class ArvenarFXMain extends Application {
         
         tradebutton.setOnAction(action -> {
         elvenarapp.trade();
-        gametextarea.appendText("You are trading with "+elvenarapp.choose_player.getHeroName()+"\n");
+        gametextarea.appendText("You are trading with "+arvenarset.getHeroName()+"\n");
         });
         
         view_npc_bio_button.setOnAction(action -> {
@@ -152,15 +152,15 @@ public class ArvenarFXMain extends Application {
                 elvenarapp.view_NpcDataBase();
             } catch (Exception e) {
             }
-        gametextarea.appendText("Character properties: "+arvenarset.getHeroName()+"\n");
+        gametextarea.appendText("Character properties: "+elvenarapp.choose_player.getHeroName()+"\n");
         });
                 
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
       Application.launch(args); //Kell az Application.launch();!!
      
-      
+     
     }
     /**
      * @param args the command line arguments

@@ -37,6 +37,11 @@ public class Character_DataBase_NPC {
         npc_img.add(clone.outlaw.getAvatarimg());
         npc_img.add(clone.merlin.getAvatarimg());
         npc_img.add(clone.human_trader.getAvatarimg());
+        npc_img.add(clone.croco1.getAvatarimg());
+        npc_img.add(clone.eagle1.getAvatarimg());
+        npc_img.add(clone.snake1.getAvatarimg());
+        npc_img.add(clone.boar1.getAvatarimg());
+        
         
                 
         npc_name.add(clone.bbear1.getFname());
@@ -48,6 +53,10 @@ public class Character_DataBase_NPC {
         npc_name.add(clone.outlaw.getFname());
         npc_name.add(clone.merlin.getFname());
         npc_name.add(clone.human_trader.getFname());
+        npc_name.add(clone.croco1.getFname());
+        npc_name.add(clone.eagle1.getFname());
+        npc_name.add(clone.snake1.getFname());
+        npc_name.add(clone.boar1.getFname());
         
                                
         npc_bio.add(clone.bbear1.getBiography());
@@ -59,6 +68,11 @@ public class Character_DataBase_NPC {
         npc_bio.add(clone.outlaw.getBiography());
         npc_bio.add(clone.merlin.getBiography());
         npc_bio.add(clone.human_trader.getBiography());
+        npc_bio.add(clone.croco1.getBiography());
+        npc_bio.add(clone.eagle1.getBiography());
+        npc_bio.add(clone.snake1.getBiography());
+        npc_bio.add(clone.boar1.getBiography());
+        
         
         
         npc_stats_race.add(clone.bbear1.getRace());
@@ -70,6 +84,10 @@ public class Character_DataBase_NPC {
         npc_stats_race.add(clone.outlaw.getRace());
         npc_stats_race.add(clone.merlin.getRace());
         npc_stats_race.add(clone.human_trader.getRace());
+        npc_stats_race.add(clone.croco1.getRace());
+        npc_stats_race.add(clone.eagle1.getRace());
+        npc_stats_race.add(clone.snake1.getRace());
+        npc_stats_race.add(clone.boar1.getRace());
         
        
         npc_stats_cast.add(clone.bbear1.getCast());
@@ -81,6 +99,10 @@ public class Character_DataBase_NPC {
         npc_stats_cast.add(clone.outlaw.getCast());
         npc_stats_cast.add(clone.merlin.getCast());
         npc_stats_cast.add(clone.human_trader.getCast());
+        npc_stats_cast.add(clone.croco1.getCast());
+        npc_stats_cast.add(clone.eagle1.getCast());
+        npc_stats_cast.add(clone.snake1.getCast());
+        npc_stats_cast.add(clone.boar1.getCast());
        
       
         npc_stats_maxhealth.add(clone.bbear1.getHealth_point());
@@ -92,6 +114,10 @@ public class Character_DataBase_NPC {
         npc_stats_maxhealth.add(clone.outlaw.getHealth_point());
         npc_stats_maxhealth.add(clone.merlin.getHealth_point());
         npc_stats_maxhealth.add(clone.human_trader.getHealth_point());
+        npc_stats_maxhealth.add(clone.croco1.getHealth_point());
+        npc_stats_maxhealth.add(clone.eagle1.getHealth_point());
+        npc_stats_maxhealth.add(clone.snake1.getHealth_point());
+        npc_stats_maxhealth.add(clone.boar1.getHealth_point());
         
                
         npc_stats_weapon.add(clone.bbear1.getWeapon());
@@ -103,6 +129,10 @@ public class Character_DataBase_NPC {
         npc_stats_weapon.add(clone.outlaw.getWeapon());             
         npc_stats_weapon.add(clone.merlin.getWeapon());
         npc_stats_weapon.add(clone.human_trader.getWeapon());
+        npc_stats_weapon.add(clone.croco1.getWeapon());
+        npc_stats_weapon.add(clone.eagle1.getWeapon());             
+        npc_stats_weapon.add(clone.snake1.getWeapon());             
+        npc_stats_weapon.add(clone.boar1.getWeapon());             
         
        
         npc_stats_shout.add(clone.bbear1.getShout());
@@ -114,6 +144,10 @@ public class Character_DataBase_NPC {
         npc_stats_shout.add(clone.outlaw.getShout());
         npc_stats_shout.add(clone.merlin.getShout());
         npc_stats_shout.add(clone.human_trader.getShout());
+        npc_stats_shout.add(clone.croco1.getShout());
+        npc_stats_shout.add(clone.eagle1.getShout());
+        npc_stats_shout.add(clone.snake1.getShout());
+        npc_stats_shout.add(clone.boar1.getShout());
     }
     
 

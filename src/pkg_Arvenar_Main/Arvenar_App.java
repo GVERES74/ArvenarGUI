@@ -75,19 +75,13 @@ public class Arvenar_App{
         
                 
         /*born.trader.Who_Am_I();
-
         born.outlaw.Who_Am_I();
-        
         born.merlin.Who_Am_I();
-        
         born.wolf1.Who_Am_I();
         born.wolf2.Who_Am_I();
-        
         born.bbear1.Who_Am_I();
         born.bbear2.Who_Am_I();
-        
         born.ogre1.Who_Am_I();
-        
         born.dragon1.Who_Am_I();*/
    }
      
