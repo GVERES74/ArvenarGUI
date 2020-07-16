@@ -8,6 +8,8 @@ package pkg_Arvenar_Main;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -37,6 +39,10 @@ public class ArvenarSetPC {
     MPlayer play_music; //ne példányosítsd!!
         
     FileInputStream inputimg = new FileInputStream("src/img/pc_human_warrior_arthur.jpg");
+    
+    FileOutputStream data_out = new FileOutputStream("src/data.df");
+    FileInputStream data_back = new FileInputStream("src/data.df");
+    
     Image selectedpcimage = new Image(inputimg);
     ImageView character_imgview = new ImageView(selectedpcimage);
     TextField character_name_textfield = new TextField(); 
@@ -46,30 +52,33 @@ public class ArvenarSetPC {
     Stage stagename = new Stage();
     Pane panename = new Pane();
     Scene scenename = new Scene(panename);
-    String hero_name = "";
+    String hero_name = "Player 1";
+    
+    
                     
     public ArvenarSetPC() throws FileNotFoundException {
+        
         
         cdbase.dataBase(); //Karakter adatbázis inicializálása
         
         character_name_textfield.setLayoutX(305); character_name_textfield.setLayoutY(50);
-        character_name_textfield.setText(clone.human_warrior.getFname());
+        character_name_textfield.setText(cdbase.getPcCharacter(0).getFname());
         character_name_textfield.setEditable(false); character_name_textfield.setFocusTraversable(false);
             
         character_bio_textarea.setLayoutX(100); character_bio_textarea.setLayoutY(100); character_bio_textarea.setWrapText(true); character_bio_textarea.setMaxHeight(100);
-        character_bio_textarea.setText(clone.human_warrior.getBiography());
+        character_bio_textarea.setText(cdbase.getPcCharacter(0).getBiography());
         character_bio_textarea.setEditable(false); character_bio_textarea.setFocusTraversable(false);
         
         character_stats_textarea.setLayoutX(100); character_stats_textarea.setLayoutY(220); character_stats_textarea.setWrapText(true); character_stats_textarea.setMaxWidth(200.0);
         character_stats_textarea.setEditable(false); character_stats_textarea.setFocusTraversable(false);
         
-        character_stats_textarea.appendText("Gender: "+cdbase.players_stats_gender.get(i)); 
-        character_stats_textarea.appendText("\nAge: "+cdbase.players_stats_age.get(i));
-        character_stats_textarea.appendText("\nCast: "+cdbase.players_stats_cast.get(i));
-        character_stats_textarea.appendText("\nHealth: "+cdbase.players_stats_health.get(i));
-        character_stats_textarea.appendText("\nSkill: "+cdbase.players_stats_skill.get(i));
-        character_stats_textarea.appendText("\nExperience: "+cdbase.players_stats_xp.get(i));
-        character_stats_textarea.appendText("\nDefence: "+cdbase.players_stats_defence.get(i));
+        character_stats_textarea.appendText("Gender: "+cdbase.getPcCharacter(i).getGender()); 
+        character_stats_textarea.appendText("\nAge: "+cdbase.getPcCharacter(i).getAge());
+        character_stats_textarea.appendText("\nCast: "+cdbase.getPcCharacter(i).getCast());
+        character_stats_textarea.appendText("\nHealth: "+cdbase.getPcCharacter(i).getHealth_point());
+        character_stats_textarea.appendText("\nSkill: "+cdbase.getPcCharacter(i).getSkill_point());
+        character_stats_textarea.appendText("\nExperience: "+cdbase.getPcCharacter(i).getExperience_point());
+        character_stats_textarea.appendText("\nDefence: "+cdbase.getPcCharacter(i).getDefend_point());
                     
         character_imgview.setLayoutX(600);
         character_imgview.setLayoutY(100);
@@ -95,67 +104,34 @@ public class ArvenarSetPC {
         //Choose selected hero_name-------------------------------------------------------------------------------
         choosebutton.setOnAction(Action -> {
             character_name_textfield.setText("You have selected: "+hero_name);
-            
+            setHero_name(hero_name);
+                        
         });
         
         //Back to previous page (Main menu)------------------------------------------------------------------
-        cancelbutton.setOnAction(Action -> {
-           
-            stagename.close();
-        });
+        cancelbutton.setOnAction(Action -> stagename.close());
         
         //Get the next Player---------------------------------------------------------------------------------
-        nextbutton.setOnAction(Action -> {
-         
-            nextPlayer();
-                
-        }); 
+        nextbutton.setOnAction(Action -> nextPlayer()); 
         //--------------------------------------------------------------------------------------------------------
         
         //Get the previous Player---------------------------------------------------------------------------------
-        prevbutton.setOnAction(Action -> {
-            
-            previousPlayer();
-                    
-        });
+        prevbutton.setOnAction(Action -> previousPlayer());
                 
     }
         
         public void nextPlayer(){
         
-           if(i < cdbase.players_img.size()-1){
+            if(i < cdbase.player_character.size()-1){
                     i++;
-                    }
+            }
                     else {
-                        i = cdbase.players_img.size()-1;
+                        i = cdbase.player_character.size()-1;
                     }
-                try {
-                    character_imgview.setImage(null); //ImageView "törlése", különben egymásra pakolja az image-ket.
-                    
-                    inputimg = new FileInputStream(cdbase.players_img.get(i));
-                    character_name_textfield.setText(cdbase.players_name.get(i));
-                    character_bio_textarea.setText(cdbase.players_bio.get(i));
-                    character_stats_textarea.clear();
-                    character_stats_textarea.appendText("Gender: "+cdbase.players_stats_gender.get(i));
-                    character_stats_textarea.appendText("\nAge: "+cdbase.players_stats_age.get(i));
-                    character_stats_textarea.appendText("\nCast: "+cdbase.players_stats_cast.get(i));
-                    character_stats_textarea.appendText("\nHealth: "+cdbase.players_stats_health.get(i));
-                    character_stats_textarea.appendText("\nSkill: "+cdbase.players_stats_skill.get(i));
-                    character_stats_textarea.appendText("\nExperience: "+cdbase.players_stats_xp.get(i));
-                    character_stats_textarea.appendText("\nDefence: "+cdbase.players_stats_defence.get(i));
-                    this.hero_name = cdbase.players_name.get(i);
-                    
-                                        
-                    character_imgview = new ImageView(new Image(inputimg));
-                    character_imgview.setLayoutX(600);
-                    character_imgview.setLayoutY(100);
-                    panename.getChildren().add(character_imgview);
-                    
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(ArvenarSetPC.class.getName()).log(Level.SEVERE, null, ex);
-                
-            } 
-        }
+                    character_imgview.setImage(null); //ImageView "törlése", különben egymásra pakolja az image-ket.     
+                    getPlayableCharacter();
+        } 
+        
         
         public void previousPlayer(){
             
@@ -166,45 +142,65 @@ public class ArvenarSetPC {
                     }
                     else {
                         i = 0;
-                    }            
-                    try {
-                        inputimg = new FileInputStream(cdbase.players_img.get(i));
-                        character_name_textfield.setText(cdbase.players_name.get(i));
-                        character_bio_textarea.setText(cdbase.players_bio.get(i));
-                        character_stats_textarea.clear();
-                        character_stats_textarea.appendText("Gender: "+cdbase.players_stats_gender.get(i));
-                        character_stats_textarea.appendText("\nAge: "+cdbase.players_stats_age.get(i));
-                        character_stats_textarea.appendText("\nCast: "+cdbase.players_stats_cast.get(i));
-                        character_stats_textarea.appendText("\nHealth: "+cdbase.players_stats_health.get(i));
-                        character_stats_textarea.appendText("\nSkill: "+cdbase.players_stats_skill.get(i));
-                        character_stats_textarea.appendText("\nExperience: "+cdbase.players_stats_xp.get(i));
-                        character_stats_textarea.appendText("\nDefence: "+cdbase.players_stats_defence.get(i));
-                        this.hero_name = cdbase.players_name.get(i);
-                        
-                                                
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(ArvenarSetPC.class.getName()).log(Level.SEVERE, null, ex);
-                    };
-                
+                    }  
+                                        
+                   getPlayableCharacter();
+        }
+      
+               
+        public void useArrowKeys(){
+            scenename.setOnKeyPressed(event ->{
+                switch  (event.getCode()){
+                    case RIGHT: nextPlayer();                
+                    case LEFT:  previousPlayer();
+                }
+            });
+        }
+        
+        
+        public void getPlayableCharacter(){
+            
+        try {
+            inputimg = new FileInputStream(cdbase.players_img.get(i));
+            character_name_textfield.setText(cdbase.getPcCharacter(i).getFname());
+            character_bio_textarea.setText(cdbase.getPcCharacter(i).getBiography());
+            character_stats_textarea.clear();
+            
+            character_stats_textarea.appendText("Gender: "+cdbase.getPcCharacter(i).getGender()); 
+            character_stats_textarea.appendText("\nAge: "+cdbase.getPcCharacter(i).getAge());
+            character_stats_textarea.appendText("\nCast: "+cdbase.getPcCharacter(i).getCast());
+            character_stats_textarea.appendText("\nHealth: "+cdbase.getPcCharacter(i).getHealth_point());
+            character_stats_textarea.appendText("\nSkill: "+cdbase.getPcCharacter(i).getSkill_point());
+            character_stats_textarea.appendText("\nExperience: "+cdbase.getPcCharacter(i).getExperience_point());
+            character_stats_textarea.appendText("\nDefence: "+cdbase.player_character.get(i).getDefend_point());
+            hero_name = cdbase.getPcCharacter(i).getFname();
+                    
+            
             character_imgview = new ImageView(new Image(inputimg));
             character_imgview.setLayoutX(600);
             character_imgview.setLayoutY(100);
-            panename.getChildren().add(character_imgview); 
+            panename.getChildren().add(character_imgview);
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ArvenarSetPC.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
+        
+        }
+        
         public String getHeroName(){
-            return hero_name;
-        }
-        
-        public void useArrowKeys(){
-        scenename.setOnKeyPressed(event ->{
-            switch  (event.getCode()){
-                case RIGHT: nextPlayer();break;
-                case LEFT: previousPlayer(); break;
+                           
+                return hero_name;
             }
+
+    public void setHero_name(String hero_name) {
+        this.hero_name = hero_name;
+    }
         
-        });
         
-        }
         
+        public FileInputStream getHeroImg() throws FileNotFoundException{
+                           
+               return new FileInputStream(cdbase.players_img.get(i));
+            }
+                        
         }       //-----------------------------------------------------------------------------------------------------   
