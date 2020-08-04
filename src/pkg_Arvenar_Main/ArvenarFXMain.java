@@ -8,23 +8,18 @@ package pkg_Arvenar_Main;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -35,19 +30,23 @@ import javax.swing.JOptionPane;
  */
 public class ArvenarFXMain extends Application {
     
-    
+        
     @Override
     public void start(Stage stageElven) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("ArvenarFx.fxml"));
 
         Arvenar_App elvenarapp = new Arvenar_App(); //Példányosítani kell, nem lehet direkt hivatkozni, mint pl. "Arvenar_App.fight()"!!
         ArvenarSetPC arvenarset = new ArvenarSetPC();
-        MPlayer play_music = new MPlayer();
-        Tooltip tt = new Tooltip();
-        Pane paneElven = new Pane();
+        Arvenar_View_Maps view_maps = new Arvenar_View_Maps();
+        Arvenar_View_NPC view_npc = new Arvenar_View_NPC();
         ArvenarGameGUI gamegui = new ArvenarGameGUI();
         ArvenarSettings gsettings = new ArvenarSettings();
         
+        Tooltip tt = new Tooltip();
+        Pane paneElven = new Pane();
+        Label flowtext_Label = new Label();
+        VBox buttonsVBox = new VBox();      
+                
         stageElven.setTitle("Arvenar - Elven Tales - 2020 - by Gabor Veres - Main menu");
         Scene sceneElven = new Scene(paneElven);
         
@@ -55,40 +54,43 @@ public class ArvenarFXMain extends Application {
         stageElven.setMinHeight(600); stageElven.setMinWidth(800);
 
         stageElven.setScene(sceneElven);
-        TextArea gametextarea = new TextArea("Waiting for input....\n");
+        TextArea gameTextArea = new TextArea("Waiting for input....\n");
+        flowtext_Label.setText("Let's play Arvenar GUI version..");
         
-        FileInputStream main_img = new FileInputStream("src/img/arvenar_main.jpg");
-        ImageView main_img_view = new ImageView(new Image(main_img));
-        main_img_view.setLayoutX(200); main_img_view.setLayoutY(50);
         
-        gametextarea.setLayoutX(200); gametextarea.setLayoutY(420);
-        gametextarea.setMaxHeight(100);
+        
+        FileInputStream main_Img = new FileInputStream("src/img/arvenar_main.jpg");
+        ImageView main_Img_View = new ImageView(new Image(main_Img));
+        main_Img_View.setLayoutX(200); main_Img_View.setLayoutY(50);
+        
+        gameTextArea.setLayoutX(200); gameTextArea.setLayoutY(420);
+        gameTextArea.setMaxHeight(100);
                 
-        Button startbutton = new Button("Start game");   startbutton.setLayoutX(50); startbutton.setLayoutY(50); startbutton.setTooltip(tt); tt.setText("Play game with selected hero");
-        Button choose_pc_button = new Button("Select Hero");   choose_pc_button.setLayoutX(50); choose_pc_button.setLayoutY(100); choose_pc_button.setTooltip(new Tooltip("Select playable character"));
-        Button settings_button = new Button("Game settings");   settings_button.setLayoutX(50); settings_button.setLayoutY(150); settings_button.setTooltip(new Tooltip("Game settings"));
-        Button tradebutton = new Button("Trade");        tradebutton.setLayoutX(50); tradebutton.setLayoutY(200);
-        Button view_npc_bio_button = new Button("Show characters"); view_npc_bio_button.setLayoutX(50); view_npc_bio_button.setLayoutY(250); view_npc_bio_button.setTooltip(new Tooltip("View npc database"));
-        Button exitbutton = new Button("Exit game");     exitbutton.setLayoutX(50); exitbutton.setLayoutY(300); exitbutton.setTooltip(new Tooltip("Exit game"));
-        Button playbutton = new Button("Play music"); playbutton.setGraphic(new ImageView(new Image("file:\\c:\\Users\\te332168\\Documents\\NetBeansProjects\\Arvenar\\src\\img\\music_play.png"))); playbutton.setLayoutX(50); playbutton.setLayoutY(400); playbutton.setTooltip(new Tooltip("Play main theme"));
-        Button stopbutton = new Button("Stop music"); stopbutton.setGraphic(new ImageView(new Image("file:\\c:\\Users\\te332168\\Documents\\NetBeansProjects\\Arvenar\\src\\img\\music_stop.png")));stopbutton.setLayoutX(50); stopbutton.setLayoutY(450); stopbutton.setTooltip(new Tooltip("Stop music"));
+        buttonsVBox.setLayoutX(50); buttonsVBox.setLayoutY(50); buttonsVBox.setSpacing(20);
+        Button startButton = new Button("Start game");    startButton.setTooltip(tt); tt.setText("Play game with selected hero");
+        Button choose_Pc_Button = new Button("Select Hero");   choose_Pc_Button.setTooltip(new Tooltip("Select playable character"));
+        Button settings_Button = new Button("Game settings");   settings_Button.setTooltip(new Tooltip("Game settings"));
+        Button maps_Button = new Button("View maps");        maps_Button.setTooltip(new Tooltip("View maps"));
+        //utton tradebutton = new Button("Trade");        tradebutton.setLayoutX(50); tradebutton.setLayoutY(200);
+        Button view_Npc_Bio_Button = new Button("Show characters"); view_Npc_Bio_Button.setTooltip(new Tooltip("View npc database"));
+        Button exitButton = new Button("Exit game");     exitButton.setTooltip(new Tooltip("Exit game"));
+        Button playButton = new Button("Play music"); playButton.setGraphic(new ImageView(new Image("file:\\c:\\Users\\te332168\\Documents\\NetBeansProjects\\Arvenar\\src\\img\\music_play.png"))); playButton.setTooltip(new Tooltip("Play main theme"));
+        Button stopButton = new Button("Stop music"); stopButton.setGraphic(new ImageView(new Image("file:\\c:\\Users\\te332168\\Documents\\NetBeansProjects\\Arvenar\\src\\img\\music_stop.png"))); stopButton.setTooltip(new Tooltip("Stop music"));
         
-        paneElven.getChildren().addAll(gametextarea, startbutton, tradebutton, view_npc_bio_button, exitbutton, choose_pc_button, settings_button, main_img_view, playbutton, stopbutton);
+        buttonsVBox.getChildren().addAll(startButton, choose_Pc_Button, maps_Button, view_Npc_Bio_Button, settings_Button, exitButton, playButton, stopButton);
+        paneElven.getChildren().addAll(gameTextArea, main_Img_View, buttonsVBox);
         stageElven.show();
-        play_music.mPlayer_start("journey.mp3", true, 5);        
-        
-        playbutton.setOnAction(action ->{
-            play_music.mPlayer_start("journey.mp3", true, 5);
-        }
-        );
-        
-        stopbutton.setOnAction(action ->{
-            play_music.mPlayer_stop();
-        }
-        );
+        MPlayer.mPlayer_start("journey.mp3", true, 5);    
         
         
-        exitbutton.setOnAction(action -> {
+        
+        //--------------------------------------------------------
+        
+        playButton.setOnAction(action ->{MPlayer.mPlayer_start("journey.mp3", true, 5);});
+        
+        stopButton.setOnAction(action ->{MPlayer.mediaPlayer.stop();});
+                
+        exitButton.setOnAction(action -> {
             
             JFrame frame = new JFrame();
             Object[] options = {"Yes","No"};
@@ -103,63 +105,57 @@ public class ArvenarFXMain extends Application {
                         
          });
        
-        startbutton.setOnAction(action -> {
+        startButton.setOnAction(action -> {
             
-            try {
-                elvenarapp.fight();
-                play_music.mPlayer_stop();
-                play_music.mPlayer_start("main.mp3", true, 5);
-                gametextarea.appendText("Fight has been started...\n");
-                gametextarea.appendText(arvenarset.getHeroName());
-                
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(ArvenarFXMain.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            gamegui.show_GameGUI();
+                //elvenarapp.fight();
+                MPlayer.mPlayer_stop();
+                MPlayer.mPlayer_start("main.mp3", true, 5);
+                gameTextArea.appendText("Fight has been started...\n");
+                gameTextArea.appendText(arvenarset.getHeroName());
                 
         });
         
-        settings_button.setOnAction(action -> {
-           
-        gsettings.show_Settings();
-        }
         
-        );
-        
-        
-        choose_pc_button.setOnAction(action -> {
-            play_music.mPlayer_stop();
-            play_music.mPlayer_start("menu.mp3", true, 5);
-            try {
-                elvenarapp.choose_Character();
-            } catch (FileNotFoundException ex) {
-                Logger.getLogger(ArvenarFXMain.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        gametextarea.appendText("Character setting...\n");
-        
+        settings_Button.setOnAction(action -> {gsettings.show_Settings();});
+                
+        choose_Pc_Button.setOnAction(action -> {
+            MPlayer.mPlayer_stop();
+            MPlayer.mPlayer_start("menu.mp3", true, 5);
+            arvenarset.stagename.show();    
+            //elvenarapp.choose_Character();
+            gameTextArea.appendText("Character setting...\n");
         
         });
         
-        tradebutton.setOnAction(action -> {
-        elvenarapp.trade();
-        gametextarea.appendText("You are trading with "+arvenarset.getHeroName()+"\n");
-        });
         
-        view_npc_bio_button.setOnAction(action -> {
-        play_music.mPlayer_stop();
-        play_music.mPlayer_start("browse.mp3", true, 5);
+        maps_Button.setOnAction(action -> {
+        
+        MPlayer.mPlayer_stop();
+        MPlayer.mPlayer_start("outdoor.mp3", true, 5);
+        view_maps.stage_view_maps.show();
+        //elvenarapp.view_Map_DataBase();
+        
+        });
+                
+        
+        view_Npc_Bio_Button.setOnAction(action -> {
+        MPlayer.mPlayer_stop();
+        MPlayer.mPlayer_start("browse.mp3", true, 5);
             try {
-                elvenarapp.stats();
-                elvenarapp.view_NpcDataBase();
+                
+                 view_npc.stagename.show();   
+                //elvenarapp.stats();
+                //elvenarapp.view_NpcDataBase();
             } catch (Exception e) {
             }
-        gametextarea.appendText("Character properties: "+elvenarapp.choose_player.getHeroName()+"\n");
+        gameTextArea.appendText("Character properties: "+arvenarset.getHeroName()+"\n");
         });
                 
     }
     
     public static void main(String[] args) throws FileNotFoundException {
       Application.launch(args); //Kell az Application.launch();!!
-     
      
     }
     /**
