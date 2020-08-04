@@ -15,11 +15,12 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pkg_Characters.Character_DataBase_NPC;
-import pkg_Characters.Character_DataBase_PC;
 import pkg_Characters.Summon_Characters;
 
 
@@ -34,13 +35,17 @@ public class Arvenar_View_NPC {
     Summon_Characters clone = new Summon_Characters();
     Character_DataBase_NPC cdbase_npc = new Character_DataBase_NPC();
             
-    FileInputStream inputimg = new FileInputStream("src/img/npc_animal_bbear1.jpg");
-    Image selectedpcimage = new Image(inputimg);
-    ImageView npc_imgview = new ImageView(selectedpcimage);
-    TextField npc_name_textfield = new TextField(); 
-    TextArea npc_bio_textarea = new TextArea();
-    TextArea npc_description_textarea = new TextArea();
-    TextArea npc_stats_textarea = new TextArea();
+    FileInputStream inputImg = new FileInputStream("src/img/npc_animal_bbear1.jpg");
+    Image selectedpcimage = new Image(inputImg);
+    ImageView npc_ImgView = new ImageView(selectedpcimage);
+    TextField npc_Name_TextField = new TextField(); 
+    TextArea npc_Bio_TextArea = new TextArea();
+    TextArea npc_Description_TextArea = new TextArea();
+    TextArea npc_Stats_TextArea = new TextArea();
+    HBox selectHBox1 = new HBox();
+    HBox buttonsHBox2 = new HBox();
+    HBox dataHBox3 = new HBox();
+    HBox bioHBox4 = new HBox();
     
     Stage stagename = new Stage();
     Pane panename = new Pane();
@@ -51,19 +56,19 @@ public class Arvenar_View_NPC {
         
         //cdbase_npc.Character_DataBase_NPC(); //Karakter adatbázis inicializálása. Nem kell ha konstruktort hozol létre: "public Character_DataBase_NPC()" és ebben töltöd fel az ArrayList-et. Nem lehet void!!
         
-        npc_name_textfield.setLayoutX(305); npc_name_textfield.setLayoutY(50);
+        
        
-        npc_name_textfield.setEditable(false); npc_name_textfield.setFocusTraversable(false);
+        npc_Name_TextField.setEditable(false); npc_Name_TextField.setFocusTraversable(false);
             
-        npc_bio_textarea.setLayoutX(100); npc_bio_textarea.setLayoutY(100); npc_bio_textarea.setWrapText(true); npc_bio_textarea.setMaxHeight(100);
+        npc_Bio_TextArea.setWrapText(true); npc_Bio_TextArea.setMaxHeight(100);
        
-        npc_bio_textarea.setEditable(false); npc_bio_textarea.setFocusTraversable(false);
+        npc_Bio_TextArea.setEditable(false); npc_Bio_TextArea.setFocusTraversable(false);
         
-        npc_stats_textarea.setLayoutX(100); npc_stats_textarea.setLayoutY(220); npc_stats_textarea.setWrapText(true); npc_stats_textarea.setMaxWidth(200.0);
-        npc_stats_textarea.setEditable(false); npc_stats_textarea.setFocusTraversable(false);
+        npc_Stats_TextArea.setWrapText(true); npc_Stats_TextArea.setMaxWidth(200.0);
+        npc_Stats_TextArea.setEditable(false); npc_Stats_TextArea.setFocusTraversable(false);
         
-        npc_description_textarea.setLayoutX(310); npc_description_textarea.setLayoutY(220); npc_description_textarea.setWrapText(true); npc_description_textarea.setMaxWidth(250.0);
-        npc_description_textarea.setEditable(false); npc_description_textarea.setFocusTraversable(false);
+        npc_Description_TextArea.setWrapText(true); npc_Description_TextArea.setMaxWidth(250.0);
+        npc_Description_TextArea.setEditable(false); npc_Description_TextArea.setFocusTraversable(false);
                             
         getNonPlayableCharacter();
         
@@ -74,35 +79,43 @@ public class Arvenar_View_NPC {
         stagename.setResizable(false);
         stagename.initModality(Modality.APPLICATION_MODAL);
         
-        Button choosebutton = new Button("Choose character"); choosebutton.setLayoutX(300); choosebutton.setLayoutY(450);
-        Button cancelbutton = new Button("Back"); cancelbutton.setLayoutX(50); cancelbutton.setLayoutY(450);
-        Button nextbutton = new Button("Next"); nextbutton.setLayoutX(500); nextbutton.setLayoutY(50);
-        Button prevbutton = new Button("Previous"); prevbutton.setLayoutX(200); prevbutton.setLayoutY(50);
+        Button chooseButton = new Button("Choose character"); 
+        Button cancelButton = new Button("Back"); 
+        Button nextButton = new Button("Next"); 
+        Button prevButton = new Button("Previous");
+        selectHBox1.setLayoutX(150); selectHBox1.setLayoutY(50); selectHBox1.setSpacing(60);
+        buttonsHBox2.setLayoutX(50); buttonsHBox2.setLayoutY(450); buttonsHBox2.setSpacing(100);
+        dataHBox3.setLayoutX(50); dataHBox3.setLayoutY(220); dataHBox3.setSpacing(20);
+        bioHBox4.setLayoutX(50); bioHBox4.setLayoutY(100);
         
-        panename.getChildren().addAll(choosebutton, cancelbutton, nextbutton, prevbutton, this.npc_name_textfield, this.npc_bio_textarea, npc_stats_textarea, npc_description_textarea);
+        selectHBox1.getChildren().addAll(prevButton, npc_Name_TextField, nextButton);
+        buttonsHBox2.getChildren().addAll(cancelButton, chooseButton);
+        dataHBox3.getChildren().addAll(npc_Stats_TextArea, npc_Description_TextArea);
+        bioHBox4.getChildren().add(npc_Bio_TextArea);
+        panename.getChildren().addAll(selectHBox1, buttonsHBox2, dataHBox3, bioHBox4);
                 
         useArrowKeys();
     //ActionListener block ----------------------------------------------------------------------------------
         
         
         //Choose selected hero_name-------------------------------------------------------------------------------
-        choosebutton.setOnAction(Action -> {
-            npc_name_textfield.setText("You are viewing: "+npc_name);
+        chooseButton.setOnAction(Action -> {
+            npc_Name_TextField.setText("You are viewing: "+npc_name);
             
             
         });
         
         //Back to previous page (Main menu)------------------------------------------------------------------
-        cancelbutton.setOnAction(Action -> stagename.close());
+        cancelButton.setOnAction(Action -> stagename.close());
                                   
                
         //Get the next Player---------------------------------------------------------------------------------
-        nextbutton.setOnAction(Action -> nextNpc());
+        nextButton.setOnAction(Action -> nextNpc());
                 
         //--------------------------------------------------------------------------------------------------------
         
         //Get the previous Player---------------------------------------------------------------------------------
-        prevbutton.setOnAction(Action -> previousNpc());
+        prevButton.setOnAction(Action -> previousNpc());
                 
     }
         
@@ -114,13 +127,13 @@ public class Arvenar_View_NPC {
                     else {
                         i = cdbase_npc.npc_character.size()-1;
                     }
-                    npc_imgview.setImage(null); //ImageView "törlése", különben egymásra pakolja az image-ket.
+                    npc_ImgView.setImage(null); //ImageView "törlése", különben egymásra pakolja az image-ket.
                     getNonPlayableCharacter();
         }
         
         public void previousNpc(){
             
-           npc_imgview.setImage(null); //ImageView "törlése", különben egymásra pakolja az image-ket.
+           npc_ImgView.setImage(null); //ImageView "törlése", különben egymásra pakolja az image-ket.
                     
                     if(i > 0){
                     i--;
@@ -149,27 +162,27 @@ public class Arvenar_View_NPC {
         public void getNonPlayableCharacter(){
             
          try {
-             inputimg = new FileInputStream(cdbase_npc.npc_img.get(i));
-             npc_name_textfield.setText(cdbase_npc.getNPC(i).getFname());
-             npc_bio_textarea.setText(cdbase_npc.getNPC(i).getBiography());
-             npc_stats_textarea.clear();
-             npc_description_textarea.clear();
-             npc_description_textarea.appendText(cdbase_npc.getNPC(i).getNpcDesc());
+             inputImg = new FileInputStream(cdbase_npc.npc_img.get(i));
+             npc_Name_TextField.setText(cdbase_npc.getNPC(i).getFname());
+             npc_Bio_TextArea.setText(cdbase_npc.getNPC(i).getBiography());
+             npc_Stats_TextArea.clear();
+             npc_Description_TextArea.clear();
+             npc_Description_TextArea.appendText(cdbase_npc.getNPC(i).getNpcDesc());
              
              
-             npc_stats_textarea.appendText("Race: "+cdbase_npc.getNPC(i).getRace());
-             npc_stats_textarea.appendText("\nCast: "+cdbase_npc.getNPC(i).getCast());
-             npc_stats_textarea.appendText("\nHealth: "+cdbase_npc.getNPC(i).getHealth_point());
-             npc_stats_textarea.appendText("\nWeapon: "+cdbase_npc.getNPC(i).getFav_weapon());
-             npc_stats_textarea.appendText("\nBattle shout: "+cdbase_npc.getNPC(i).getShout());
+             npc_Stats_TextArea.appendText("Race: "+cdbase_npc.getNPC(i).getRace());
+             npc_Stats_TextArea.appendText("\nCast: "+cdbase_npc.getNPC(i).getCast());
+             npc_Stats_TextArea.appendText("\nHealth: "+cdbase_npc.getNPC(i).getHealth_point());
+             npc_Stats_TextArea.appendText("\nWeapon: "+cdbase_npc.getNPC(i).getFav_weapon());
+             npc_Stats_TextArea.appendText("\nBattle shout: "+cdbase_npc.getNPC(i).getShout());
              this.npc_name = cdbase_npc.getNPC(i).getFname();
              
              
              
-             npc_imgview = new ImageView(new Image(inputimg));
-             npc_imgview.setLayoutX(600);
-             npc_imgview.setLayoutY(100);
-             panename.getChildren().add(npc_imgview);
+             npc_ImgView = new ImageView(new Image(inputImg));
+             npc_ImgView.setLayoutX(600); npc_ImgView.setLayoutY(200);
+             panename.getChildren().add(npc_ImgView);
+             
          } catch (FileNotFoundException ex) {
              Logger.getLogger(Arvenar_View_NPC.class.getName()).log(Level.SEVERE, null, ex);
          }
