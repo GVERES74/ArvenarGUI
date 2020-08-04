@@ -4,21 +4,27 @@
  * and open the template in the editor.
  */
 package pkg_Arvenar_Main;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javax.swing.JTextField;
-import pkg_Characters.Summon_Characters;
+import pkg_Characters.Character_DataBase_NPC;
+import pkg_Characters.Character_DataBase_PC;
+import pkg_Characters.NPC;
+import pkg_Characters.Playable_Character;
+import pkg_Maps.Arvenar_Maps;
+import pkg_Maps.Map_DataBase;
 
 /**
  *
@@ -30,19 +36,30 @@ public class ArvenarGameGUI{
     Pane gamepane = new Pane();
     Pane gameareapane = new Pane(); 
     Scene gamescene = new Scene(gamepane);
-    MPlayer play_music;
+    
     ImageView cmpass = new ImageView();
-    Label dialog_text = new Label();
-    Summon_Characters enemy = new Summon_Characters();
+    TextArea dialog_text = new TextArea();
+    Label label_mapname = new Label();
+    
+    Character_DataBase_NPC npcs = new Character_DataBase_NPC();
+            
+    NPC rnpc;   //random NPC
+    Playable_Character choosen_pc; //selected PC from ArvenarSetPC - static var
+    Arvenar_Maps choosen_map; //selected map from Arvenar_Maps - static var
+    Map_DataBase random_map = new Map_DataBase();
+    
         
     int hero_x = 300, hero_y = 150;
     int pirate_x = 205, pirate_y = 175;
+    int j = 0;
+    int rx = 0, ry = 0;
     
-    final int MAX_X = 400, MAX_Y = 400;
-    final int MIN_X = 30, MIN_Y = 30;
+    final int MAX_X = 420, MAX_Y = 420;
+    final int MIN_X = 10, MIN_Y = 10;
     
     Button btn_playgame = new Button("Play game");
     Button btn_exitgame = new Button("Stop game");
+    Button btn_playrandommap = new Button("Play on random map");
     Button up = new Button("N");
     Button down = new Button("S");
     Button left = new Button("W");
@@ -50,24 +67,25 @@ public class ArvenarGameGUI{
     Button hero = new Button("H");
     Button pirate = new Button("P");
         
-    
+                
     public ArvenarGameGUI() throws FileNotFoundException{ //ez nem lehet void, különben üres stage-t kapsz vissza!!
       
         FileInputStream cmp_img = new FileInputStream("src/img/compass.jpg");
-        
+                
         gamestage.setTitle("Arvenar main run");
         gamestage.setScene(gamescene);
-        
-        
+       
+              
          btn_playgame.setLayoutX(50); btn_playgame.setLayoutY(400);
          btn_exitgame.setLayoutX(50); btn_exitgame.setLayoutY(450);
+         btn_playrandommap.setLayoutX(50); btn_playrandommap.setLayoutY(100);
          up.setLayoutX(130); up.setLayoutY(175);
          down.setLayoutX(130); down.setLayoutY(320);
          left.setLayoutX(55); left.setLayoutY(250);
          right.setLayoutX(200); right.setLayoutY(250);
          hero.setLayoutX(hero_x); hero.setLayoutY(hero_y);
-         pirate.setLayoutX(pirate_x); pirate.setLayoutY(pirate_y);
-        
+         
+        label_mapname.setLayoutX(250); label_mapname.setLayoutY(30);
         gameareapane.setLayoutX(250); gameareapane.setLayoutY(50);
         gameareapane.setMaxSize(450, 450); gameareapane.setMinSize(450, 450);
         gameareapane.setStyle("-fx-background-color: lightblue;");
@@ -78,10 +96,11 @@ public class ArvenarGameGUI{
         cmpass.setImage(new Image(cmp_img));
         cmpass.setLayoutX(90); cmpass.setLayoutY(210);
         gamestage.initModality(Modality.APPLICATION_MODAL);
-        gameareapane.getChildren().addAll(hero, pirate);
-        dialog_text.setLayoutX(70); dialog_text.setLayoutY(500);
+               
         
-        gamepane.getChildren().addAll(cmpass, btn_playgame, btn_exitgame, gameareapane, up, down, left, right, dialog_text);
+        dialog_text.setLayoutX(250); dialog_text.setLayoutY(500); dialog_text.setMaxHeight(30); dialog_text.setFocusTraversable(false);
+        
+        gamepane.getChildren().addAll(cmpass, btn_playgame, btn_exitgame, btn_playrandommap, gameareapane, up, down, left, right, dialog_text, label_mapname);
         
         
         gamescene.setOnKeyPressed(event ->{
@@ -145,17 +164,49 @@ public class ArvenarGameGUI{
        //----------------------------------------------- 
         
              
-       btn_playgame.setOnAction(action -> {
-            int rx, ry;
+        btn_playgame.setOnAction(action -> {
+            try {
+                /*int rx = 0, ry = 0;
+                
+                rx = (int)(Math.random()*(MAX_X-MIN_X)+1);
+                ry = (int)(Math.random()*(MAX_Y-MIN_Y)+1);
+                pirate.setLayoutX(rx); pirate.setLayoutY(ry);*/
+                gameareapane.getChildren().clear();
+                
+                addHero();
+                addPirates();
+                label_mapname.setText("Hero "+choosen_pc.getFname()+" is playing on current map: "+choosen_map.getMap_name()); //for selected map
+                                
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ArvenarGameGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             
-            rx = (int)(Math.random()*(MAX_X-MIN_X)+1);
-            ry = (int)(Math.random()*(MAX_Y-MIN_Y)+1);
             
-            pirate.setLayoutX(rx); pirate.setLayoutY(ry);
         });
               
+        btn_playrandommap.setOnAction(action ->{
+                     
+           try {
+                /*int rx = 0, ry = 0;
+                
+                rx = (int)(Math.random()*(MAX_X-MIN_X)+1);
+                ry = (int)(Math.random()*(MAX_Y-MIN_Y)+1);
+                pirate.setLayoutX(rx); pirate.setLayoutY(ry);*/
+                gameareapane.getChildren().clear();
+                
+                addHero();
+                addPirates();
+                label_mapname.setText("Hero "+choosen_pc.getFname()+" is playing on current map: "+random_map.get_Random_Map().getMap_name()); //for random map
+                                
+                
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(ArvenarGameGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });        
        
-       btn_exitgame.setOnAction(action -> {
+       
+        btn_exitgame.setOnAction(action -> {
             
             gamestage.close();
         });
@@ -164,22 +215,64 @@ public class ArvenarGameGUI{
         
         
     public void check_HeroPos(){
+        
+        pirate.setLayoutX(rx); pirate.setLayoutY(ry); //Csak a P4 koordinátái lesznek
+        if (((hero.getLayoutY() < pirate.getLayoutY()+20) && (hero.getLayoutX() < pirate.getLayoutX()+20)) 
+                   && ((hero.getLayoutY() > pirate.getLayoutY()-20) && (hero.getLayoutX() > pirate.getLayoutX()-20))){   
+        
+            hero.setText("Fucked");
             
-           if (((hero.getLayoutY() < pirate.getLayoutY()+20) && (hero.getLayoutX() < pirate.getLayoutX()+20)) 
-                   && ((hero.getLayoutY() > pirate.getLayoutY()-20) && (hero.getLayoutX() > pirate.getLayoutX()-20))) {
-                
-                hero.setText("Fucked");
-                dialog_text.setText("You were fucked up by "+enemy.croco1.getFname());
-           }
-           
-           else hero.setText("H");
-    }        
+                 dialog_text.appendText(choosen_pc.getFname()+" was fucked up by "+rnpc.getFname()+"\n");
+    }
+            else hero.setText("H");
+    }
+    
     
     public void show_GameGUI(){
         
          gamestage.show();
     }
-    
 
-    }
+   public void addPirates() throws FileNotFoundException{
+              
+       for (j = 0; j < 5; j++){
+        
+        Button pirate = new Button("P"+j);
+        rx = (int)(Math.random()*(MAX_X-MIN_X)+1);
+        ry = (int)(Math.random()*(MAX_Y-MIN_Y)+1);
+               
+        Tooltip ptt = new Tooltip(); //Itt muszáj minden ciklusban új példányt létrehozni (5x)
+        NPC random_npc = npcs.getRandomNPC();
+        rnpc = random_npc; //átadjuk az osztályszintű változónak a random npc-nket, hogy használhassák más metódusok is.
+            ptt.setText(random_npc.getFname());
+            ImageView pirate_imgv = new ImageView(new File(random_npc.getAvatarimg()).toURI().toString());
+            pirate_imgv.setFitHeight(50); pirate_imgv.setFitWidth(50); //thumbnail-eket akarunk
+            ptt.setGraphic(pirate_imgv); //Lásd: hints.txt
+            pirate.setTooltip(ptt);
+            pirate.setLayoutX(rx); pirate.setLayoutY(ry);
+            System.out.println(rx+" / "+ry);
+            
+        gameareapane.getChildren().add(pirate);
+        
+       }
+   }   
+       public void addHero(){
+         
+                              
+                choosen_pc = ArvenarSetPC.selected_pc;
+                choosen_map = Arvenar_View_Maps.choosen_map;
+                
+                ImageView hero_imgv = new ImageView(new File(choosen_pc.getAvatarimg()).toURI().toString());              
+                                
+                hero_imgv.setFitHeight(50); hero_imgv.setFitWidth(50); //thumbnail-eket akarunk
+                Tooltip hero_tooltip = new Tooltip();
+                
+                hero_tooltip.setGraphic(hero_imgv); 
+                hero_tooltip.setText(choosen_pc.getFname());
+                hero.setTooltip(hero_tooltip);
+                gameareapane.getChildren().add(hero);
+                
+       }
+   
+ }
 
