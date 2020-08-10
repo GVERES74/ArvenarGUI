@@ -6,13 +6,9 @@
 package pkg_Arvenar_Main;
 
 
-import java.io.File;
 
-import java.net.URISyntaxException;
 
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 
@@ -22,34 +18,51 @@ import javafx.scene.media.Media;
  */
 public class MPlayer {
  
-    AudioClip mediaPlayer; 
+    static AudioClip mediaPlayer = new AudioClip(new Media(Paths.get("src/music/main.mp3").toUri().toString()).getSource()); 
+    static boolean audio_on = true; //audio on or off
+    static int volume = 5;
+    public MPlayer(){
+        
+    }
+            
+    public static void mPlayer_start(String title, Boolean playing, int repeat) {
 
- public String mPlayer_start(String title, Boolean playing, int repeat) {
-
-     String theme = "src/music/"+title;
+    String theme = "src/music/"+title;
 
      Media music = new Media(Paths.get(theme).toUri().toString());    
 
-     this.mediaPlayer = new AudioClip(music.getSource());
-
+     mediaPlayer = new AudioClip(music.getSource());
+          
 
       //MediaPlayer stops playing music afer 5-10 seconds --> use AudioClip instead
 
              mediaPlayer.setCycleCount(repeat);
-             this.mediaPlayer.play();
-
-
-     return title;     
+             if(audio_on == true){
+                 mediaPlayer.setVolume(volume);
+                 mediaPlayer.play();
+             }
+             else {
+                 mediaPlayer.stop();
+             }
 
      }         
 
-        public void mPlayer_stop(){
+        public static void mPlayer_stop(){
             
-            if (mediaPlayer.isPlaying()){
-                this.mediaPlayer.stop();
+           if (mediaPlayer.isPlaying()){
+                mediaPlayer.stop();
             }
             else System.out.println("Music is no playing");
         } 
+
+    public static void setAudio_on(boolean audio_on) {
+        MPlayer.audio_on = audio_on;
+    }
+
+    public static void setVolume(int volume) {
+        MPlayer.volume = volume;
+    }
+      
 }    
     
     

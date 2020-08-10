@@ -14,33 +14,6 @@ import pkg_Items.weapons.*;
  */
 public class PC_Human extends Playable_Character {
 
-    private final String avatarimg;
-    private final String biography;
-          
-
-  
-    
-  public PC_Human() {
-  
-  this.gender = gender; 
-  this.race = "Human";
-  this.fname = fname;
-  this.age = age;
-  this.cast = cast;
-  this.level = 1;
-  this.fav_weapon = fav_weapon;
-  this.inv_potion = inv_potion;
-  this.health_point = 100;
-  this.skill_point = skill_point;
-  this.experience_point = experience_point;
-  this.current_weapon_damage = fav_weapon.weapon_getDamage();  
-  this.defend_point = fav_weapon.getMin_damage();
-  this.money = 100;
-  this.avatarimg = "";
-  this.biography = "";
-  
-  
-  }  
     
   public PC_Human(String gender, String fname, int age, String cast, Weapons weapon, Potions potion,int skill_point, int experience_point, String avatarimg, String biography){
   

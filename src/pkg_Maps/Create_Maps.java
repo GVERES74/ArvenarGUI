@@ -16,7 +16,7 @@ public class Create_Maps {
  }    
      //Hint: Arvenar_Maps(String map_name, String map_desc, String map_inhabitants, String map_image_path, String map_story)
  
-     public Arvenar_Maps forest = new Arvenar_Maps("Whitewood forest", "Elven forest inhabited by elven", "Thieves, Bears, Wolves", "src/maps/m1_forest.jpg",
+     public Arvenar_Maps forest = new Arvenar_Maps("Whitewood forest", "Elven forest inhabited by elven", "Thieves, Bears, Wolves, Wildboars", "src/maps/m1_forest.jpg",
              "The forest is said to be as old as the world itself. It was created by the Elven ArchMage, who destroyed the old world and brought this new one to life for his people.");
      
      public Arvenar_Maps city = new Arvenar_Maps("Elyven city", "Elven city inhabited by elven citizens","Thieves", "src/maps/m2_elven_city.jpg", 
@@ -29,7 +29,7 @@ public class Create_Maps {
      public Arvenar_Maps desert = new Arvenar_Maps("Forgotten desert", "Desert inhabited by thugs, animals and minions", "Snake, Scorpion, Bandits, Wolves", "src/maps/m4_desert.jpg", 
              "This desert as deadly as any other area in Arvenar. You never know, what is lurking among the sand dunes, waiting for its prey.");
    
-     public Arvenar_Maps village = new Arvenar_Maps("Ayisha village", "Small, snowy village in th mountains", "Bandits, Smugglers", "src/maps/m5_snowy_village.jpg", 
+     public Arvenar_Maps village = new Arvenar_Maps("Ayisha village", "Small, snowy village in th mountains", "Bandits, Smugglers, Wildboars", "src/maps/m5_snowy_village.jpg", 
              "Let it snow. - say the locals. The winter is long and dark in this area, far deep in the Amaran mountains. Visitors are rare, except for adventurers, as it is said that "
                      + "the smugglers buried here gold before they were driven out during the war. They are waiting for their big day of return, and are dangerous.");
 
@@ -41,4 +41,8 @@ public class Create_Maps {
      
      public Arvenar_Maps harbor = new Arvenar_Maps("Port Havole", "Harbor at the sea", "Smugglers, Outlaws, Pirates", "src/maps/m7_harbor.jpg", 
              "Port Havole was built by the elven, but then later on ruled by human. The harbor is vital for markets and trade, and, of course, smuggling");
+     
+     
+     public Arvenar_Maps countryside = new Arvenar_Maps("Countryside Farm", "Farm at countryside", "Smugglers, Outlaws, Pirates, Bears, Wolves, Wildboars", "src/maps/m8_farm.jpg", 
+             "Lonely farm at countryside, far from crowded cities.");
 }

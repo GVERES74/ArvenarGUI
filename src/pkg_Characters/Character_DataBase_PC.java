@@ -24,11 +24,17 @@ public class Character_DataBase_PC {
     public List<Integer> players_stats_skill = new ArrayList<>();
     public List<Integer> players_stats_xp = new ArrayList<>();
     public List<Integer> players_stats_defence = new ArrayList<>();
+    public List<Playable_Character> player_character = new ArrayList<>();
+    
     Summon_Characters clone = new Summon_Characters();
-    
-    
-    public void dataBase(){
+        
+    public Character_DataBase_PC(){
                     
+        player_character.add(clone.human_warrior);
+        player_character.add(clone.human_mage);
+        player_character.add(clone.elf_rogue);
+        player_character.add(clone.dwarf_smith);
+        
         players_img.add(clone.human_warrior.getAvatarImg());
         players_img.add(clone.human_mage.getAvatarImg());
         players_img.add(clone.elf_rogue.getAvatarImg());
@@ -84,8 +90,20 @@ public class Character_DataBase_PC {
         players_stats_defence.add(clone.elf_rogue.getDefend_point());
         players_stats_defence.add(clone.dwarf_smith.getDefend_point());
         
-             
-       
     }
     
-}
+    public Playable_Character getPcCharacter(int i){
+        //FIGYELEM! Az ArvenarSetPC getPlayableCharacter() 11x hivta meg itt a "dataBase()" eljárást, ezért 4 helyett 44 lett az adatbázis mérete!! dataBase() eljárás törölve.  
+        return player_character.get(i);
+    }
+    
+            
+        public Playable_Character getRandomPC(){
+            int i = (int) ((Math.random()*4));
+                        
+            return player_character.get(i);
+            
+        
+    }
+    
+   }

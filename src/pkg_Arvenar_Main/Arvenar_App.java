@@ -23,6 +23,7 @@ public class Arvenar_App{
     ArvenarSetPC choose_player = new ArvenarSetPC(); 
     Arvenar_View_NPC view_npc = new Arvenar_View_NPC(); 
     Summon_Characters born = new Summon_Characters();
+    Arvenar_View_Maps view_maps = new Arvenar_View_Maps();
     ArvenarSettings setgame = new ArvenarSettings();
     ArvenarGameGUI gamegui = new ArvenarGameGUI();
     
@@ -35,7 +36,7 @@ public class Arvenar_App{
       
     public void fight() throws FileNotFoundException{
         
-            gamegui.show_GameGUI();
+            
             born.dwarf_smith.attacksOpponent(born.wolf2);
             born.human_warrior.attacksOpponent(born.wolf1);
             born.elf_rogue.attacksOpponent(born.outlaw);
@@ -63,41 +64,18 @@ public class Arvenar_App{
         String hero = choose_player.getHeroName();
         
         switch (hero){
-            case "Arthur": born.human_warrior.Who_Am_I(); 
+            case "Arthur": born.human_warrior.getPcDesc(); 
             break;
-            case "Morgana": born.human_mage.Who_Am_I();
+            case "Morgana": born.human_mage.getPcDesc();
             break;
-            case "Arven": born.elf_rogue.Who_Am_I(); 
+            case "Arven": born.elf_rogue.getPcDesc(); 
             break;
-            case "Otli": born.dwarf_smith.Who_Am_I(); 
+            case "Otli": born.dwarf_smith.getPcDesc(); 
             break;
         }
-        
-                
-        /*born.trader.Who_Am_I();
-        born.outlaw.Who_Am_I();
-        born.merlin.Who_Am_I();
-        born.wolf1.Who_Am_I();
-        born.wolf2.Who_Am_I();
-        born.bbear1.Who_Am_I();
-        born.bbear2.Who_Am_I();
-        born.ogre1.Who_Am_I();
-        born.dragon1.Who_Am_I();*/
-   }
-     
-     public void choose_Character() throws FileNotFoundException{
-     
-        choose_player.stagename.show();
-     }    
-     
-     public void view_NpcDataBase(){
-       view_npc.stagename.show();
-     }
-     
-    public void set_Game(){
-        
-       setgame.show_Settings();
     }
+     
+    
 } 
 
       

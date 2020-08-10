@@ -7,7 +7,6 @@ package pkg_Characters;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import pkg_Items.potions.*;
 import pkg_Items.weapons.*;
 
@@ -17,14 +16,14 @@ import pkg_Items.weapons.*;
  */
 public class Summon_Characters {
     
-        
+          
     public Summon_Characters(){
+        
        
-           
     }
             
        //Inventory: Fegyverek létrehozása    
-        public Weapons_One_Handed sword = new Weapons_One_Handed("Sword","Rusty sword", 25, 9, 35, "slashing");
+        public Weapons_One_Handed sword = new Weapons_One_Handed("Sword","Rusty sword", 9, 25, 35, "slashing");
         public Weapons_One_Handed knife = new Weapons_One_Handed("Knife","Bread slicer", 1, 4, 3, "slicing");
         public Weapons_Staff staff = new Weapons_Staff("Staff","Firemage staff", 8, 15, 18, "casting fire");
         public Weapons_Two_Handed cleaver = new Weapons_Two_Handed("Cleaver","Big Cleaver", 11, 25, 28, "chopping");
@@ -33,8 +32,9 @@ public class Summon_Characters {
         public Weapons_Magic fireball = new Weapons_Magic("Fireball","Fireball", 5, 9, 0, "burning");
         
     //Állatok "fegyvere"
-        public Weapons_Animal teeth = new Weapons_Animal("sharp teeth", 5, 15, "biting");
-        public Weapons_Animal claws = new Weapons_Animal("razor claws", 10, 25, "scratching");
+        public Weapons_Animal teeth = new Weapons_Animal("sharp teeth", 10, 25, "biting");
+        public Weapons_Animal claws = new Weapons_Animal("razor claws", 11, 27, "scratching");
+        public Weapons_Animal poison = new Weapons_Animal("poisoning teeth", 14, 20, "poisoning");
         
     //Szörnyek "fegyvere"
         public Weapons_Monster ogre_fist = new Weapons_Monster("fist", 20, 26, "punching you");
@@ -90,7 +90,7 @@ public class Summon_Characters {
         public NPC_Animal_Eagle eagle1 = new NPC_Animal_Eagle("Great wings", "Mountain Eagle", claws, claws.getWeapon_say(), 200,"src/img/npc_animal_eagle1.jpg",
         "Eagles can attack from a mile high in the sky, and are able to grip and take even a human child. Watch out for them!");
         
-        public NPC_Animal_Snake snake1 = new NPC_Animal_Snake("Poisoner", "Snake", teeth, teeth.getWeapon_say(), 200,"src/img/npc_animal_snake1.jpg",
+        public NPC_Animal_Snake snake1 = new NPC_Animal_Snake("Poisoner", "Snake", poison, poison.getWeapon_say(), 200,"src/img/npc_animal_snake1.jpg",
         "Snakes usually avoid contact with other species, apart from their lunch. Their poison can though be lethal, so you better avoid them too!");
         
         public NPC_Animal_WildBoar boar1 = new NPC_Animal_WildBoar("Piggy", "WildBoar", teeth, teeth.getWeapon_say(), 200,"src/img/npc_animal_wildboar1.jpg",
@@ -104,6 +104,9 @@ public class Summon_Characters {
         
         public NPC_Monster_Dragon dragon1 = new NPC_Monster_Dragon("Azariel", "Fire Dragon", dragon_fire, dragon_fire.getWeapon_say(), 300, "src/img/npc_monster_dragon_azariel.jpg",
         "Azariel was born far back before the new world was created and ruled by humans, elven and dwarves. Folks say he can be 1000 years old, but his whereabouts these days are unknown. Or not.");
+        
+        
+        
         
         //Inventory -k feltöltése
         public void load_inventory(){

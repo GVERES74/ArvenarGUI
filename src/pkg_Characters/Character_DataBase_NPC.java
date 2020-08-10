@@ -5,6 +5,8 @@
  */
 package pkg_Characters;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
  */
 public class Character_DataBase_NPC {
     
+    int i = 0;
     public List<String> npc_img = new ArrayList<>();
     public List<String> npc_name = new ArrayList<>();
     public List<String> npc_bio = new ArrayList<>();
@@ -22,12 +25,37 @@ public class Character_DataBase_NPC {
     public List<String> npc_stats_weapon = new ArrayList<>();
     public List<String> npc_stats_shout = new ArrayList<>();
     public List<Integer> npc_stats_maxhealth = new ArrayList<>();
+    public List<NPC> npc_character = new ArrayList<>();
+    
+    public List<NPC> npc_for_m1_forest = new ArrayList<>();
+    public List<NPC> npc_for_m2_elven_city = new ArrayList<>();
+    public List<NPC> npc_for_m3_fort = new ArrayList<>();
+    public List<NPC> npc_for_m4_desert = new ArrayList<>();
+    public List<NPC> npc_for_m5_snowy_village = new ArrayList<>();
+    public List<NPC> npc_for_m6_dwarven_mines = new ArrayList<>();
+    public List<NPC> npc_for_m7_harbor = new ArrayList<>();
+    
     
     Summon_Characters clone = new Summon_Characters();
     
-    
-    public void dataBase(){
-                    
+        
+    public Character_DataBase_NPC(){
+        
+                        
+        npc_character.add(clone.bbear1);
+        npc_character.add(clone.bbear2);
+        npc_character.add(clone.wolf1);
+        npc_character.add(clone.wolf2);
+        npc_character.add(clone.ogre1);
+        npc_character.add(clone.dragon1);
+        npc_character.add(clone.outlaw);
+        npc_character.add(clone.merlin);
+        npc_character.add(clone.human_trader);
+        npc_character.add(clone.croco1);
+        npc_character.add(clone.eagle1);
+        npc_character.add(clone.snake1);
+        npc_character.add(clone.boar1);
+        
         npc_img.add(clone.bbear1.getAvatarimg());
         npc_img.add(clone.bbear2.getAvatarimg());
         npc_img.add(clone.wolf1.getAvatarimg());
@@ -148,8 +176,37 @@ public class Character_DataBase_NPC {
         npc_stats_shout.add(clone.eagle1.getShout());
         npc_stats_shout.add(clone.snake1.getShout());
         npc_stats_shout.add(clone.boar1.getShout());
+        
+        
     }
     
-
+        public String getRandomNPCName(){
+            
+            i = (int) ((Math.random()*13));
+            
+            return npc_name.get(i);
+        }
+        
+        public FileInputStream getNPCImage() throws FileNotFoundException{
+            
+            i = (int) ((Math.random()*13));
+                        
+            return new FileInputStream(npc_img.get(i));
+            
+            
+        }
+        
+        public NPC getRandomNPC(){
+            i = (int) ((Math.random()*13));
+                        
+            return npc_character.get(i);
+            
+        }
     
+        public NPC getNPC(int i){
+            
+            return npc_character.get(i);
+        }
+        
+        
 }

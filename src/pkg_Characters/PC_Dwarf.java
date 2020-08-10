@@ -15,8 +15,6 @@ import pkg_Items.weapons.*;
 
 public class PC_Dwarf extends Playable_Character {
 
-    private final String avatarimg;
-    private final String biography;
     
   public PC_Dwarf(String gender, String fname, int age, String cast, Weapons weapon, Potions potion,int skill_point, int experience_point, String avatarimg, String biography){
   

@@ -5,9 +5,7 @@
  */
 package pkg_Characters;
 
-import java.io.PrintStream;
 import java.util.ArrayList;
-import pkg_Arvenar_Main.ArvenarFXMain;
 import pkg_Items.potions.Potions;
 import pkg_Items.weapons.Weapons;
 
@@ -33,12 +31,45 @@ public abstract class Playable_Character implements Character{
   int current_weapon_damage; //ha közvetlenül hívod meg a fav_weapon.weapon_getDamage() függvényt, akkor minden híváskor random újragenerálja az értéket
   int money;
   ArrayList<Object> inventory = new ArrayList<Object>();
+  String biography;
+  String avatarimg = "";
     
   
-  public String Outtext(){
-      String texttogametextarea = "Attack this motherfucker";
+  public String getPcDesc(){ //get full description of playable character
+                      
+      return (fname == null ? "Nameless": "I'm "+fname+", my race is "+race+"!"+"\n")+ //a little bit ugly using like this, but does the trick
+        (gender == null ? "Genderless": "I'm a "+gender+"."+"\n")+
+        (age == 0 ? "I wasn't born yet": "My age is "+age+"."+"\n")+
+        (cast == null ? "Outlaw": "I was trained to be a "+cast+"."+"\n")+
+        (level == 0 ? "No level": "Level: "+level+"\n")+
+        (fav_weapon == null ? "Milk bottle": "I'm "+fav_weapon.weapon_say+" my enemy with my "+fav_weapon.getDescription()+"."+"\n")+
+        (health_point == 0 ? "I'm dead": "HP: "+health_point+"\n")+
+        (skill_point == 0 ? "Greenhorn": "SP: "+skill_point+"\n")+
+        (experience_point == 0 ? "Farmer": "XP: "+experience_point+"\n")+
+        (defend_point == 0 ? "Defenseless": "Defend: "+defend_point+"\n")+
+        (money == 0 ? "Beggar": "Money: "+money+"\n")+
+        
+        ("Current inventory: \t\n")+
+       
+        (fav_weapon.weapon_description == null ? "No weapon": "Weapon name: "+fav_weapon.getWeapon_name()+"\n")+
+        (fav_weapon.weapon_description == null ? "No weapon": "Weapon description: "+fav_weapon.getDescription()+"\n")+
+        (fav_weapon.weapon_description == null ? "No weapon": "Weapon class: "+fav_weapon.getWeapon_class()+"\n")+
+        (fav_weapon.getMin_damage() == 0 ? "Can't hit": "Damage: "+fav_weapon.getMin_damage()+" - "+fav_weapon.getMax_damage()+"\n")+
+        (fav_weapon.getMin_damage() == 0 ? "Can't hit": "Current damage: "+current_weapon_damage+" hit points."+"\n")+
+        (fav_weapon.getBuyValue() == 0 ? "Can't be bought\n": "Buy value: "+fav_weapon.getBuyValue()+"\n")+
+        (fav_weapon.getSellValue() == 0 ? "Can't be sold\n": "Sell value: "+fav_weapon.getSellValue()+"\n")+
+        
+        /*for (int i=0; i < inventory.size(); i++){
+        ("Current inventory:"+"\n"+"\t"+inventory.get(i))+
             
-      return texttogametextarea;
+         }*/
+        
+        (inv_potion.getPotion_name() == null ? "No potion": "Potion name: "+inv_potion.getPotion_name()+"\n")+
+        (inv_potion.getPotion_class() == null ? "No potion": "Potion class: "+inv_potion.getPotion_class()+"\n")+
+        (inv_potion.getPotion_description() == null ? "No potion": "Potion description: "+inv_potion.getPotion_description()+"\n")+
+        (inv_potion.getPotion_healvalue() == 0 ? "No effect": "Potion healvalue: "+inv_potion.getPotion_healvalue()+"\n")+
+        (inv_potion.getPotion_buy_value() == 0 ? "Can't be bought": "Potion buyvalue: "+inv_potion.getPotion_buy_value()+"\n")+
+        (inv_potion.getPotion_sell_value() == 0 ? "Can't be sold": "Potion sellvalue: "+inv_potion.getPotion_sell_value()+"\n");
   }
   
   public void addItemToInventory (Object items){
@@ -62,6 +93,8 @@ public abstract class Playable_Character implements Character{
         else{
         incHealth(1);
         System.out.format("Attacker %s HP now: %d and defender %s HP now: %d..%n",fname,health_point,opponent.getFname(),opponent.health_point);
+        incSkill(1);
+        
         
   }
         
@@ -88,6 +121,7 @@ public abstract class Playable_Character implements Character{
   
   public int incSkill(int skill){
       this.skill_point += skill;
+      System.out.println(fname+" gained +"+skill+" skill points. Total SP: "+skill_point);
       return skill_point;
     }
   
@@ -95,48 +129,10 @@ public abstract class Playable_Character implements Character{
       this.experience_point += xp;
       return experience_point;
   }
-            
-         
-     public void Who_Am_I(){
-   
-         
-        System.out.println(fname == null ? "Nameless": "I'm "+fname+", my race is "+race+"!");
-        System.out.println(gender == null ? "Genderless": "I'm a "+gender+".");
-        System.out.println(age == 0 ? "I wasn't born yet": "My age is "+age+".");
-        System.out.println(cast == null ? "Outlaw": "I was trained to be a "+cast+".");
-        System.out.println(level == 0 ? "No level": "Level: "+level);
-        System.out.println(fav_weapon == null ? "Milk bottle": "I'm "+fav_weapon.weapon_say+" my enemy with my "+fav_weapon.getDescription()+".");
-        System.out.println(health_point == 0 ? "I'm dead": "HP: "+health_point);
-        System.out.println(skill_point == 0 ? "Greenhorn": "TP: "+skill_point);
-        System.out.println(experience_point == 0 ? "Farmer": "XP: "+experience_point);
-        System.out.println(defend_point == 0 ? "Defenseless": "Defend: "+defend_point);
-        System.out.println(money == 0 ? "Beggar": "Money: "+money);
-        
-        
-       
-        System.out.println(fav_weapon.weapon_description == null ? "No weapon": "Weapon name: "+fav_weapon.getWeapon_name());
-        System.out.println(fav_weapon.weapon_description == null ? "No weapon": "Weapon description: "+fav_weapon.getDescription());
-        System.out.println(fav_weapon.weapon_description == null ? "No weapon": "Weapon class: "+fav_weapon.getWeapon_class());
-        System.out.println(fav_weapon.getMin_damage() == 0 ? "Can't hit": "Damage: "+fav_weapon.getMin_damage()+" - "+fav_weapon.getMax_damage());
-        System.out.println(fav_weapon.getMin_damage() == 0 ? "Can't hit": "Current damage: "+current_weapon_damage+" hit points.");
-        System.out.println(fav_weapon.getBuyValue() == 0 ? "Can't be bought": "Buy value: "+fav_weapon.getBuyValue());
-        System.out.println(fav_weapon.getSellValue() == 0 ? "Can't be sold": "Sell value: "+fav_weapon.getSellValue());
-        System.out.println();
-        System.out.println("Current inventory:");
-        for (int i=0; i < inventory.size(); i++){
-        System.out.println("\t"+inventory.get(i));
-         }
-        System.out.println(inv_potion.getPotion_name() == null ? "No potion": "Potion name: "+inv_potion.getPotion_name());
-        System.out.println(inv_potion.getPotion_class() == null ? "No potion": "Potion class: "+inv_potion.getPotion_class());
-        System.out.println(inv_potion.getPotion_description() == null ? "No potion": "Potion description: "+inv_potion.getPotion_description());
-        System.out.println(inv_potion.getPotion_healvalue() == 0 ? "No effect": "Potion healvalue: "+inv_potion.getPotion_healvalue());
-        System.out.println(inv_potion.getPotion_buy_value() == 0 ? "Can't be bought": "Potion buyvalue: "+inv_potion.getPotion_buy_value());
-        System.out.println(inv_potion.getPotion_sell_value() == 0 ? "Can't be sold": "Potion sellvalue: "+inv_potion.getPotion_sell_value());
-        System.out.println();
-               
-    }
-
-    public void setGender(String gender) {
+     
+  //--------Setters--------------------  
+  
+  public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -164,6 +160,7 @@ public abstract class Playable_Character implements Character{
         this.experience_point = experience_point;
     }
 
+    //--------Getters--------------------
     
     public String getFname() {
         return fname;
@@ -176,6 +173,43 @@ public abstract class Playable_Character implements Character{
     public int getDefend_point() {
         return defend_point;
     }
+    
+    public String getBiography() {
+        return biography;
+    }
+
+    public String getAvatarimg(){
+        return avatarimg;
+    }
+    
+    public String getGender() {
+        return gender;
+    }
+
+    public String getRace() {
+        return race;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getCast() {
+        return cast;
+    }
+
+    public int getExperience_point() {
+        return experience_point;
+    }
+
+    public String getShout() {
+        return shout;
+    }
+
+    public int getSkill_point() {
+        return skill_point;
+    }
+    
     
    }
 

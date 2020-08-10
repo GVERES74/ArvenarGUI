@@ -14,9 +14,6 @@ import pkg_Items.weapons.*;
  */
 public class PC_Elf extends Playable_Character{
 
-    private final String avatarimg;
-    private final String biography;
-    
   public PC_Elf(String gender, String fname, int age, String cast, Weapons weapon, Potions potion,int skill_point, int experience_point, String avatarimg, String biography){
   
   this.gender = gender; 

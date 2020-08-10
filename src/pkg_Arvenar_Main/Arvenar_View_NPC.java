@@ -102,11 +102,13 @@ public class Arvenar_View_NPC {
         chooseButton.setOnAction(Action -> {
             npc_Name_TextField.setText("You are viewing: "+npc_name);
             
-            
         });
         
         //Back to previous page (Main menu)------------------------------------------------------------------
-        cancelButton.setOnAction(Action -> stagename.close());
+        cancelButton.setOnAction(Action -> {
+            ArvenarFXMain.stageElven.setScene(ArvenarFXMain.sceneElven);
+            ArvenarFXMain.stageElven.setFullScreen(ArvenarFXMain.flagFullScreen);
+        });
                                   
                
         //Get the next Player---------------------------------------------------------------------------------
@@ -189,6 +191,9 @@ public class Arvenar_View_NPC {
         
         }
         
+        public Scene npc_Scene(){
+            return scenename;
+        }
         
         }
 

@@ -16,6 +16,11 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -40,6 +45,7 @@ public class ArvenarGameGUI{
     ImageView cmpass = new ImageView();
     TextArea dialog_text = new TextArea();
     Label label_mapname = new Label();
+    Image bkgImage = new Image("img/bkg_main.jpg", 1366 , 768, true, false, true);
     
     Character_DataBase_NPC npcs = new Character_DataBase_NPC();
             
@@ -100,6 +106,7 @@ public class ArvenarGameGUI{
         
         dialog_text.setLayoutX(250); dialog_text.setLayoutY(500); dialog_text.setMaxHeight(30); dialog_text.setFocusTraversable(false);
         
+        gamepane.setBackground(new Background(new BackgroundImage(bkgImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         gamepane.getChildren().addAll(cmpass, btn_playgame, btn_exitgame, btn_playrandommap, gameareapane, up, down, left, right, dialog_text, label_mapname);
         
         
@@ -208,7 +215,10 @@ public class ArvenarGameGUI{
        
         btn_exitgame.setOnAction(action -> {
             
-            gamestage.close();
+            //gamestage.close();
+            ArvenarFXMain.stageElven.setScene(ArvenarFXMain.sceneElven);
+            ArvenarFXMain.stageElven.setFullScreen(ArvenarFXMain.flagFullScreen);
+            
         });
     
     }
@@ -274,5 +284,8 @@ public class ArvenarGameGUI{
                 
        }
    
+       public Scene game_Scene(){
+           return gamescene;
+       }
  }
 

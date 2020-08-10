@@ -6,6 +6,7 @@
 package pkg_Characters;
 
 import java.util.ArrayList;
+import pkg_Items.potions.Potions;
 import pkg_Items.weapons.Weapons;
 
 /**
@@ -14,25 +15,45 @@ import pkg_Items.weapons.Weapons;
  */
 public abstract class NPC implements Character{
   
+  String gender; 
   String race;
   String fname;
+  int age;
   String cast;
-  int hasmoney;
   Weapons fav_weapon;
+  Potions inv_potion;
   String shout = "attacking";
   int health_point;
-  int max_health;
-  int hit_point;
+  int max_health = 100; //differs from playable character's
+  int hit_point; //differs from playable character's
+  int level;
+  int skill_point;
+  int experience_point;
   int defend_point;
   int current_weapon_damage; //ha közvetlenül hívod meg a fav_weapon.weapon_getDamage() függvényt, akkor minden híváskor random újragenerálja az értéket
+  int money;
+  int hasmoney;
   ArrayList<Object> inventory = new ArrayList<Object>();
   String biography;
-  String avatarimg;
+  String avatarimg = "";
     
   
   
   public void addItemToInventory (Object items){
       inventory.add(items);
+  }
+  
+  public String getNpcDesc(){
+      
+      return (fname == null ? "Nameless": "Name: "+fname+"\n")+
+      (race == null ? "Raceless": "Type: "+race+"\n")+
+      (cast == null ? "Outlaw": "Cast: "+cast+"\n")+
+      (fav_weapon.weapon_description == null ? "Fist": cast+" is "+fav_weapon.weapon_say+" with its "+fav_weapon.getDescription()+"."+"\n")+
+      (health_point == 0 ? "Dead": "HP: "+health_point+"\n")+
+      (defend_point == 0 ? "Defenseless": "Defend: "+defend_point+"\n")+
+      (fav_weapon.getMin_damage() == 0 ? "Can't hit": "Damage: "+fav_weapon.getMin_damage()+" - "+fav_weapon.getMax_damage()+"\n")+
+      (fav_weapon.getMin_damage() == 0 ? "Can't hit": "Hits by "+current_weapon_damage+" hit points."+"\n");
+      
   }
   
   //Aktív cselekmény: Ellenfél megtámadása
@@ -74,22 +95,8 @@ public abstract class NPC implements Character{
   }
             
          
-     public    void Who_Am_I(){
-       
-        System.out.println(fname == null ? "Nameless": "Name: "+fname);
-        System.out.println(race == null ? "Raceless": "Type: "+race);
-        System.out.println(cast == null ? "Outlaw": "Cast: "+cast);
-        
-        System.out.println(fav_weapon.weapon_description == null ? "Fist": cast+" is "+fav_weapon.weapon_say+" with its "+fav_weapon.getDescription()+".");
-        System.out.println(health_point == 0 ? "Dead": "HP: "+health_point);
-        System.out.println(defend_point == 0 ? "Defenseless": "Defend: "+defend_point);
-        System.out.println(fav_weapon.getMin_damage() == 0 ? "Can't hit": "Damage: "+fav_weapon.getMin_damage()+" - "+fav_weapon.getMax_damage());
-        System.out.println(fav_weapon.getMin_damage() == 0 ? "Can't hit": "Hits by "+current_weapon_damage+" hit points.");
-        System.out.println();
-                
-    }
-
     
+    //----------------Setters------------------------
 
     public void setFname(String fname) {
         this.fname = fname;
@@ -139,4 +146,13 @@ public abstract class NPC implements Character{
         return avatarimg;
     }
 
+    public String getFav_weapon() {
+        return fav_weapon.weapon_description;
+    }
+
+    public String getShout() {
+        return shout;
+    }
+
+    
 }

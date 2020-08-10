@@ -5,6 +5,10 @@
  */
 package pkg_Characters;
 
+import java.util.ArrayList;
+import pkg_Items.potions.Potions;
+import pkg_Items.weapons.Weapons;
+
 
 
 /**
@@ -13,6 +17,7 @@ package pkg_Characters;
  */
 public interface Character {
     
+    public void addItemToInventory (Object items);    
                
     public void attacksOpponent (Character opponent);
 /*Nem is olyan bonyolult interfészt definiálni. 
