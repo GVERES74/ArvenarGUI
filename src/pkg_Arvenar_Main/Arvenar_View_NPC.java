@@ -49,6 +49,7 @@ public class Arvenar_View_NPC {
     
     Stage stagename = new Stage();
     Pane panename = new Pane();
+    Pane subPane = new Pane();
     Scene scenename = new Scene(panename);
     String npc_name = "";
                     
@@ -92,7 +93,10 @@ public class Arvenar_View_NPC {
         buttonsHBox2.getChildren().addAll(cancelButton, chooseButton);
         dataHBox3.getChildren().addAll(npc_Stats_TextArea, npc_Description_TextArea);
         bioHBox4.getChildren().add(npc_Bio_TextArea);
-        panename.getChildren().addAll(selectHBox1, buttonsHBox2, dataHBox3, bioHBox4);
+        subPane.setLayoutX(500); subPane.setLayoutY(100);
+        
+        subPane.getChildren().addAll(selectHBox1, buttonsHBox2, dataHBox3, bioHBox4);
+        panename.getChildren().add(subPane);
                 
         useArrowKeys();
     //ActionListener block ----------------------------------------------------------------------------------
@@ -182,7 +186,7 @@ public class Arvenar_View_NPC {
              
              
              npc_ImgView = new ImageView(new Image(inputImg));
-             npc_ImgView.setLayoutX(600); npc_ImgView.setLayoutY(200);
+             npc_ImgView.setLayoutX(1000); npc_ImgView.setLayoutY(200);
              panename.getChildren().add(npc_ImgView);
              
          } catch (FileNotFoundException ex) {

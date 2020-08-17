@@ -50,6 +50,7 @@ public class ArvenarSetPC {
     
     Stage stagename = new Stage();
     Pane panename = new Pane();
+    Pane subPane = new Pane();
     Scene scenename = new Scene(panename);
     static String hero_name = "Player 1";
     static Playable_Character selected_pc;
@@ -85,11 +86,13 @@ public class ArvenarSetPC {
         Button nextbutton = new Button("Next"); nextbutton.setLayoutX(500); nextbutton.setLayoutY(50);
         Button prevbutton = new Button("Previous"); prevbutton.setLayoutX(200); prevbutton.setLayoutY(50);
         
-        panename.getChildren().addAll(choosebutton, cancelbutton, nextbutton, prevbutton, this.pc_name_textfield, this.pc_bio_textarea, pc_stats_textarea, pc_description_textarea);
+        subPane.setLayoutX(500); subPane.setLayoutX(300);
+        subPane.getChildren().addAll(choosebutton, cancelbutton, nextbutton, prevbutton, this.pc_name_textfield, this.pc_bio_textarea, pc_stats_textarea, pc_description_textarea);
+        panename.getChildren().add(subPane);
         
         useArrowKeys(); 
         
-        System.out.println(cdbase_pc.players_stats_age.size());
+        
         
     //ActionListener block ----------------------------------------------------------------------------------
         //Choose selected hero_name-------------------------------------------------------------------------------
@@ -174,8 +177,8 @@ public class ArvenarSetPC {
                     
             
             pc_imgview = new ImageView(new Image(inputimg));
-            pc_imgview.setLayoutX(600);
-            pc_imgview.setLayoutY(100);
+            pc_imgview.setLayoutX(900);
+            pc_imgview.setLayoutY(400);
             panename.getChildren().add(pc_imgview);
             
         } catch (FileNotFoundException ex) {

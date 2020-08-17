@@ -20,8 +20,10 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -45,6 +47,9 @@ public class ArvenarSettings {
     Label label_music = new Label("Music On / Off");
     Label label_is_Fullscreen = new Label("Fullscreen On / Off");
     Tooltip slider_music_tt = new Tooltip();
+    Text sceneText = new Text("SETTINGS");
+    
+    ArvenarEffects arvfx = new ArvenarEffects();
     
 
     
@@ -77,6 +82,7 @@ public class ArvenarSettings {
         label_is_Fullscreen.setLayoutX(20); label_is_Fullscreen.setLayoutY(20);
         label_is_Fullscreen.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         chkbox_fullScreen.setLayoutX(170); chkbox_fullScreen.setLayoutY(18); chkbox_fullScreen.setSelected(false);
+        sceneText = arvfx.setTextEffect(sceneText, arvfx.setGlowEffect(0.5), null, Font.font("Verdana", FontWeight.BOLD, 36), Color.SILVER, 50, 800);
         
         /*settings_stage.setMinWidth(800);
         settings_stage.setMinHeight(600);
@@ -86,7 +92,7 @@ public class ArvenarSettings {
         video_pane.getChildren().addAll(label_is_Fullscreen, chkbox_fullScreen);
         settings_pane.setBackground(new Background(new BackgroundImage(new Image("/img/bkg_settings.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         settings_scene = new Scene(settings_pane);
-        settings_pane.getChildren().addAll(btn_accept_changes, btn_exit_settings, audio_pane, video_pane);
+        settings_pane.getChildren().addAll(btn_accept_changes, btn_exit_settings, audio_pane, video_pane, sceneText);
         
         //---------------------------------------------------    
         
@@ -144,7 +150,9 @@ public class ArvenarSettings {
                         ArvenarFXMain.flagFullScreen = true;
                         ArvenarFXMain.stageElven.setFullScreen(true);
                     }
-                                        
+                    else{
+                        ArvenarFXMain.flagFullScreen = false;
+                    }               
                     
                 } catch (Exception ex) {
                     Logger.getLogger(ArvenarSettings.class.getName()).log(Level.SEVERE, null, ex);
@@ -177,12 +185,7 @@ public class ArvenarSettings {
         
     }
     
-    public void show_Settings(){
-        
-        settings_stage.show();
-        
-    }
-
+    
     public Scene settings_Scene(){
         
         return settings_scene;

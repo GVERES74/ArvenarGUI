@@ -48,6 +48,7 @@ public class Arvenar_View_Maps {
     
     Stage stage_view_maps = new Stage();
     Pane pane_view_maps = new Pane();
+    Pane subPane = new Pane();
     Scene scene_view_maps;
     String selected_map_name = "";
     static Arvenar_Maps choosen_map;
@@ -85,7 +86,9 @@ public class Arvenar_View_Maps {
         get_Selected_Map();
         pane_view_maps.setBackground(new Background(new BackgroundImage(new Image("/img/bkg_maps.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         scene_view_maps = new Scene(pane_view_maps);
-        pane_view_maps.getChildren().addAll(choosebutton, cancelbutton, nextbutton, prevbutton, map_name_textfield, map_inhabit_textarea, map_story_textarea, map_description_textarea);
+        subPane.setLayoutX(500); subPane.setLayoutY(200);
+        subPane.getChildren().addAll(choosebutton, cancelbutton, nextbutton, prevbutton, map_name_textfield, map_inhabit_textarea, map_story_textarea, map_description_textarea);
+        pane_view_maps.getChildren().add(subPane);
                 
         useArrowKeys();
     //ActionListener block ----------------------------------------------------------------------------------
@@ -166,8 +169,8 @@ public class Arvenar_View_Maps {
              selected_map_name = maps.getMap(i).getMap_name();
              
              map_imgview = new ImageView(new Image(map_inputimg));
-             map_imgview.setLayoutX(100);
-             map_imgview.setLayoutY(100);
+             map_imgview.setLayoutX(600);
+             map_imgview.setLayoutY(300);
              pane_view_maps.getChildren().add(map_imgview);
          } catch (FileNotFoundException ex) {
              Logger.getLogger(Arvenar_View_NPC.class.getName()).log(Level.SEVERE, null, ex);

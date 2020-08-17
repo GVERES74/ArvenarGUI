@@ -11,8 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,11 +19,15 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pkg_Characters.Character_DataBase_NPC;
-import pkg_Characters.Character_DataBase_PC;
 import pkg_Characters.NPC;
 import pkg_Characters.Playable_Character;
 import pkg_Maps.Arvenar_Maps;
@@ -39,33 +41,43 @@ public class ArvenarGameGUI{
     
     Stage gamestage = new Stage();
     Pane gamepane = new Pane();
+    Pane subPane = new Pane();
+    Pane dialogPane = new Pane();
     Pane gameareapane = new Pane(); 
+    
     Scene gamescene = new Scene(gamepane);
     
+    HBox dialogHBox = new HBox();
+    ImageView pirate_imgv;
+    ImageView hero_imgv;
     ImageView cmpass = new ImageView();
-    TextArea dialog_text = new TextArea();
-    Label label_mapname = new Label();
-    Image bkgImage = new Image("img/bkg_main.jpg", 1366 , 768, true, false, true);
     
+    Text dialogText = new Text();
+    Text infoText = new Text();
+    Image bkgImage = new Image("img/bkg_main.jpg", 1920 , 1080, true, false, true);
+        
     Character_DataBase_NPC npcs = new Character_DataBase_NPC();
             
     NPC rnpc;   //random NPC
     Playable_Character choosen_pc; //selected PC from ArvenarSetPC - static var
     Arvenar_Maps choosen_map; //selected map from Arvenar_Maps - static var
     Map_DataBase random_map = new Map_DataBase();
+    ArvenarEffects arvfx = new ArvenarEffects();
     
         
     int hero_x = 300, hero_y = 150;
     int pirate_x = 205, pirate_y = 175;
     int j = 0;
     int rx = 0, ry = 0;
+    int playableAreaX = 750;
+    int playableAreaY = 750;
     
-    final int MAX_X = 420, MAX_Y = 420;
+    final int MAX_X = playableAreaX-30, MAX_Y = playableAreaX-30;
     final int MIN_X = 10, MIN_Y = 10;
     
-    Button btn_playgame = new Button("Play game");
-    Button btn_exitgame = new Button("Stop game");
-    Button btn_playrandommap = new Button("Play on random map");
+    Button btnPlayGame = new Button("Play game");
+    Button btnExitGame = new Button("Stop game");
+    Button btnPlayRandomMap = new Button("Play on random map");
     Button up = new Button("N");
     Button down = new Button("S");
     Button left = new Button("W");
@@ -82,33 +94,48 @@ public class ArvenarGameGUI{
         gamestage.setScene(gamescene);
        
               
-         btn_playgame.setLayoutX(50); btn_playgame.setLayoutY(400);
-         btn_exitgame.setLayoutX(50); btn_exitgame.setLayoutY(450);
-         btn_playrandommap.setLayoutX(50); btn_playrandommap.setLayoutY(100);
+         btnPlayGame.setLayoutX(50); btnPlayGame.setLayoutY(50);
+         
+         btnExitGame.setLayoutX(50); btnExitGame.setLayoutY(450);
+         btnPlayRandomMap.setLayoutX(50); btnPlayRandomMap.setLayoutY(100);
          up.setLayoutX(130); up.setLayoutY(175);
          down.setLayoutX(130); down.setLayoutY(320);
          left.setLayoutX(55); left.setLayoutY(250);
          right.setLayoutX(200); right.setLayoutY(250);
          hero.setLayoutX(hero_x); hero.setLayoutY(hero_y);
          
-        label_mapname.setLayoutX(250); label_mapname.setLayoutY(30);
+        
+        infoText = arvfx.setTextEffect(infoText, arvfx.glowEffect, null, Font.font("Verdana", FontWeight.BOLD, 14), Color.GOLD, 250, 20);
+        dialogText = arvfx.setTextEffect(dialogText, arvfx.glowEffect, null, Font.font("Verdana", FontWeight.BOLD, 18), Color.DEEPSKYBLUE, 20, 30);
+        
         gameareapane.setLayoutX(250); gameareapane.setLayoutY(50);
-        gameareapane.setMaxSize(450, 450); gameareapane.setMinSize(450, 450);
+        gameareapane.setMaxSize(playableAreaX, playableAreaY); gameareapane.setMinSize(playableAreaX, playableAreaY);
         gameareapane.setStyle("-fx-background-color: lightblue;");
         
-        gamestage.setMinWidth(800);
-        gamestage.setMinHeight(600);
+                       
+        gamestage.setMinWidth(1366);
+        gamestage.setMinHeight(768);
         
         cmpass.setImage(new Image(cmp_img));
         cmpass.setLayoutX(90); cmpass.setLayoutY(210);
         gamestage.initModality(Modality.APPLICATION_MODAL);
                
+        dialogHBox.setLayoutX(220); dialogHBox.setLayoutY(820);
+        dialogHBox.setSpacing(10);
+        dialogPane.setLayoutX(250); dialogPane.setLayoutY(820);
+        dialogPane.setMinHeight(100); dialogPane.setMinWidth(800);
+        dialogPane.setStyle("-fx-background-color: rgba(0, 50, 200, 0.2); -fx-background-radius: 10;"); //transparent and rounded dialog box
         
-        dialog_text.setLayoutX(250); dialog_text.setLayoutY(500); dialog_text.setMaxHeight(30); dialog_text.setFocusTraversable(false);
+        dialogPane.setEffect(arvfx.setShadowEffect(2.0, 2.0, 0.70, Color.AQUA, 0.3, 0.3, 0.3));
+        
+        
+        subPane.setLayoutX(200); subPane.setLayoutY(50);
         
         gamepane.setBackground(new Background(new BackgroundImage(bkgImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
-        gamepane.getChildren().addAll(cmpass, btn_playgame, btn_exitgame, btn_playrandommap, gameareapane, up, down, left, right, dialog_text, label_mapname);
-        
+        dialogPane.getChildren().add(dialogText);
+        dialogHBox.getChildren().add(dialogPane); dialogHBox.setSpacing(10);
+        subPane.getChildren().addAll(cmpass, btnPlayGame, btnExitGame, btnPlayRandomMap, gameareapane, up, down, left, right, infoText, dialogHBox);
+        gamepane.getChildren().addAll(subPane);
         
         gamescene.setOnKeyPressed(event ->{
             switch  (event.getCode()){
@@ -171,7 +198,9 @@ public class ArvenarGameGUI{
        //----------------------------------------------- 
         
              
-        btn_playgame.setOnAction(action -> {
+        btnPlayGame.setOnAction(action -> {
+            
+            resetGameUI();
             try {
                 /*int rx = 0, ry = 0;
                 
@@ -182,7 +211,7 @@ public class ArvenarGameGUI{
                 
                 addHero();
                 addPirates();
-                label_mapname.setText("Hero "+choosen_pc.getFname()+" is playing on current map: "+choosen_map.getMap_name()); //for selected map
+                infoText.setText("Hero "+choosen_pc.getFname()+" is playing on current map: "+choosen_map.getMap_name()); //for selected map
                                 
                 
             } catch (FileNotFoundException ex) {
@@ -192,9 +221,10 @@ public class ArvenarGameGUI{
             
         });
               
-        btn_playrandommap.setOnAction(action ->{
+        btnPlayRandomMap.setOnAction(action ->{
                      
-           try {
+           resetGameUI();
+            try {
                 /*int rx = 0, ry = 0;
                 
                 rx = (int)(Math.random()*(MAX_X-MIN_X)+1);
@@ -204,7 +234,7 @@ public class ArvenarGameGUI{
                 
                 addHero();
                 addPirates();
-                label_mapname.setText("Hero "+choosen_pc.getFname()+" is playing on current map: "+random_map.get_Random_Map().getMap_name()); //for random map
+                infoText.setText("Hero "+choosen_pc.getFname()+" is playing on current map: "+random_map.get_Random_Map().getMap_name()); //for random map
                                 
                 
             } catch (FileNotFoundException ex) {
@@ -213,18 +243,23 @@ public class ArvenarGameGUI{
         });        
        
        
-        btn_exitgame.setOnAction(action -> {
+        btnExitGame.setOnAction(action -> {
             
-            //gamestage.close();
             ArvenarFXMain.stageElven.setScene(ArvenarFXMain.sceneElven);
             ArvenarFXMain.stageElven.setFullScreen(ArvenarFXMain.flagFullScreen);
             
         });
-    
+         
+        arvfx.buttonEffects(btnExitGame);
+        arvfx.buttonEffects(btnPlayGame);
+        arvfx.buttonEffects(btnPlayRandomMap);
+        
     }
         
         
     public void check_HeroPos(){
+        
+        resetGameUI();
         
         pirate.setLayoutX(rx); pirate.setLayoutY(ry); //Csak a P4 koordinátái lesznek
         if (((hero.getLayoutY() < pirate.getLayoutY()+20) && (hero.getLayoutX() < pirate.getLayoutX()+20)) 
@@ -232,7 +267,9 @@ public class ArvenarGameGUI{
         
             hero.setText("Fucked");
             
-                 dialog_text.appendText(choosen_pc.getFname()+" was fucked up by "+rnpc.getFname()+"\n");
+                 dialogText.setText(choosen_pc.getFname()+" was fucked up by "+rnpc.getFname()+"\n");
+                 pirate_imgv.setFitHeight(100); pirate_imgv.setFitWidth(100);
+                 dialogHBox.getChildren().add(pirate_imgv);
     }
             else hero.setText("H");
     }
@@ -245,6 +282,7 @@ public class ArvenarGameGUI{
 
    public void addPirates() throws FileNotFoundException{
               
+       
        for (j = 0; j < 5; j++){
         
         Button pirate = new Button("P"+j);
@@ -255,7 +293,7 @@ public class ArvenarGameGUI{
         NPC random_npc = npcs.getRandomNPC();
         rnpc = random_npc; //átadjuk az osztályszintű változónak a random npc-nket, hogy használhassák más metódusok is.
             ptt.setText(random_npc.getFname());
-            ImageView pirate_imgv = new ImageView(new File(random_npc.getAvatarimg()).toURI().toString());
+            pirate_imgv = new ImageView(new File(random_npc.getAvatarimg()).toURI().toString());
             pirate_imgv.setFitHeight(50); pirate_imgv.setFitWidth(50); //thumbnail-eket akarunk
             ptt.setGraphic(pirate_imgv); //Lásd: hints.txt
             pirate.setTooltip(ptt);
@@ -272,7 +310,7 @@ public class ArvenarGameGUI{
                 choosen_pc = ArvenarSetPC.selected_pc;
                 choosen_map = Arvenar_View_Maps.choosen_map;
                 
-                ImageView hero_imgv = new ImageView(new File(choosen_pc.getAvatarimg()).toURI().toString());              
+                hero_imgv = new ImageView(new File(choosen_pc.getAvatarimg()).toURI().toString());              
                                 
                 hero_imgv.setFitHeight(50); hero_imgv.setFitWidth(50); //thumbnail-eket akarunk
                 Tooltip hero_tooltip = new Tooltip();
@@ -283,9 +321,17 @@ public class ArvenarGameGUI{
                 gameareapane.getChildren().add(hero);
                 
        }
+       
+       
+       public void resetGameUI(){
+        dialogHBox.getChildren().remove(pirate_imgv);
+        dialogText.setText(null); //reset text and image
+       }
    
        public Scene game_Scene(){
            return gamescene;
        }
+       
+              
  }
 

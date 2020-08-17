@@ -26,8 +26,10 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -43,6 +45,7 @@ public class ArvenarFXMain extends Application {
         public static boolean flagFullScreen;
         static Scene sceneElven;
         Arvenar_View_NPC view_npc;
+        ArvenarEffects arvfx = new ArvenarEffects();
     
         
     @Override
@@ -52,17 +55,18 @@ public class ArvenarFXMain extends Application {
         Arvenar_App elvenarapp = new Arvenar_App(); //Példányosítani kell, nem lehet direkt hivatkozni, mint pl. "Arvenar_App.fight()"!!
         ArvenarSetPC arvenarset = new ArvenarSetPC();
         Arvenar_View_Maps view_maps = new Arvenar_View_Maps();
-            view_npc = new Arvenar_View_NPC();
+                          view_npc = new Arvenar_View_NPC();
         ArvenarGameGUI gamegui = new ArvenarGameGUI();
         ArvenarSettings gsettings = new ArvenarSettings();
+        ArvenarCredits credits = new ArvenarCredits();
         
         Tooltip tt = new Tooltip();
         Pane paneElven = new StackPane();
-        Label flowtext_Label = new Label();
+        Text versionText = new Text("Arvenar GUI version - Build 10.08.20");
         VBox buttonsVBox = new VBox();     
-        Image bkgImage = new Image("img/bkg_main.jpg", 1366 , 768, true, false, true);
+        Image bkgImage = new Image("img/bkg_main.jpg", 1920 , 1080, true, false, true);
         
-        resX = 1366; resY = 768; //static settings vars
+        resX = 1920; resY = 1080; //static settings vars
         stageElven = new Stage();
         stageElven.setTitle("Arvenar - Elven Tales - 2020 - by Gabor Veres");
         paneElven.setBackground(new Background(new BackgroundImage(bkgImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
@@ -77,8 +81,7 @@ public class ArvenarFXMain extends Application {
         stageElven.setScene(sceneElven);
         TextArea gameTextArea = new TextArea("Waiting for input....\n");
          
-        flowtext_Label.setText("Arvenar GUI version - Build 10.08.20");
-        
+                
         /*FileInputStream main_Img = new FileInputStream("src/img/arvenar_main.jpg");
         ImageView main_Img_View = new ImageView(new Image(main_Img));
         main_Img_View.setLayoutX(200); main_Img_View.setLayoutY(50);*/
@@ -88,16 +91,16 @@ public class ArvenarFXMain extends Application {
         Button settingsButton = new Button("Game settings");  settingsButton.setPrefWidth(150); settingsButton.setTooltip(new Tooltip("Game settings"));
         Button mapsButton = new Button("View maps");       mapsButton.setPrefWidth(150); mapsButton.setTooltip(new Tooltip("View maps"));
         Button npcButton = new Button("Show characters"); npcButton.setPrefWidth(150); npcButton.setTooltip(new Tooltip("View npc database"));
+        Button creditsButton = new Button("Credits"); creditsButton.setPrefWidth(150); creditsButton.setTooltip(new Tooltip("Game credits"));
         Button exitButton = new Button("Exit game");   exitButton.setPrefWidth(150);  exitButton.setTooltip(new Tooltip("Exit game"));
         Button playButton = new Button("Play music"); playButton.setPrefWidth(150); playButton.setGraphic(new ImageView(new Image("file:\\c:\\Users\\te332168\\Documents\\NetBeansProjects\\Arvenar\\src\\img\\music_play.png"))); playButton.setTooltip(new Tooltip("Play main theme"));
         Button stopButton = new Button("Stop music"); stopButton.setPrefWidth(150); stopButton.setGraphic(new ImageView(new Image("file:\\c:\\Users\\te332168\\Documents\\NetBeansProjects\\Arvenar\\src\\img\\music_stop.png"))); stopButton.setTooltip(new Tooltip("Stop music"));
         
         buttonsVBox.setTranslateX(30); buttonsVBox.setTranslateY(30);
         buttonsVBox.setSpacing(20); 
-        flowtext_Label.setTranslateX(400);flowtext_Label.setTranslateY(300); flowtext_Label.setTranslateZ(20);
-        flowtext_Label.setFont(Font.font("Verdana", FontWeight.BOLD, 20)); 
-        buttonsVBox.getChildren().addAll(startButton, pcButton, mapsButton, npcButton, settingsButton, exitButton, playButton, stopButton);
-        paneElven.getChildren().addAll(buttonsVBox, flowtext_Label);
+        versionText = arvfx.setTextEffect(versionText, arvfx.glowEffect, arvfx.reflectionEffect, Font.font("Verdana", FontWeight.BOLD, 20), Color.CORAL, 400, 300);
+        buttonsVBox.getChildren().addAll(startButton, pcButton, mapsButton, npcButton, settingsButton, creditsButton, exitButton, playButton, stopButton);
+        paneElven.getChildren().addAll(buttonsVBox, versionText);
         
         stageElven.setFullScreen(flagFullScreen);        
         stageElven.show();
@@ -106,7 +109,15 @@ public class ArvenarFXMain extends Application {
         
         
         //--------------------------------------------------------
-        
+        arvfx.buttonEffects(playButton);
+        arvfx.buttonEffects(stopButton);
+        arvfx.buttonEffects(exitButton);
+        arvfx.buttonEffects(creditsButton);
+        arvfx.buttonEffects(startButton);
+        arvfx.buttonEffects(pcButton);
+        arvfx.buttonEffects(npcButton);
+        arvfx.buttonEffects(mapsButton);
+        arvfx.buttonEffects(settingsButton);
         
         playButton.setOnAction(action ->{MPlayer.mPlayer_start("journey.mp3", true, 5);});
         
@@ -187,6 +198,16 @@ public class ArvenarFXMain extends Application {
             }
         gameTextArea.appendText("Character properties: "+arvenarset.getHeroName()+"\n");
         });
+    
+        creditsButton.setOnAction(action -> {
+        
+        MPlayer.mPlayer_stop();
+        MPlayer.mPlayer_start("credits1.mp3", true, 5);
+        stageElven.setScene(credits.credits_Scene());
+        stageElven.setFullScreen(flagFullScreen);
+                
+        });
+    
     }    
                    
        
