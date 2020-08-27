@@ -35,7 +35,8 @@ public class ArvenarSetPC {
     Summon_Characters clone = new Summon_Characters();
     Character_DataBase_PC cdbase_pc = new Character_DataBase_PC();
     MPlayer play_music; //ne példányosítsd!!
-        
+    ArvenarEffects arvfx = new ArvenarEffects();
+    
     FileInputStream inputimg = new FileInputStream("src/img/pc_human_warrior_arthur.jpg");
     
     FileOutputStream data_out = new FileOutputStream("src/data.df");
@@ -81,39 +82,44 @@ public class ArvenarSetPC {
         stagename.setResizable(false);
         stagename.initModality(Modality.APPLICATION_MODAL);
         
-        Button choosebutton = new Button("Choose character"); choosebutton.setLayoutX(300); choosebutton.setLayoutY(450);
-        Button cancelbutton = new Button("Back"); cancelbutton.setLayoutX(50); cancelbutton.setLayoutY(450);
-        Button nextbutton = new Button("Next"); nextbutton.setLayoutX(500); nextbutton.setLayoutY(50);
-        Button prevbutton = new Button("Previous"); prevbutton.setLayoutX(200); prevbutton.setLayoutY(50);
+        Button btnChoose = new Button("Choose character"); btnChoose.setLayoutX(300); btnChoose.setLayoutY(450);
+        Button btnCancel = new Button("Back"); btnCancel.setLayoutX(50); btnCancel.setLayoutY(450);
+        Button btnNext = new Button("Next"); btnNext.setLayoutX(500); btnNext.setLayoutY(50);
+        Button btnPrev = new Button("Previous"); btnPrev.setLayoutX(200); btnPrev.setLayoutY(50);
         
-        subPane.setLayoutX(500); subPane.setLayoutX(300);
-        subPane.getChildren().addAll(choosebutton, cancelbutton, nextbutton, prevbutton, this.pc_name_textfield, this.pc_bio_textarea, pc_stats_textarea, pc_description_textarea);
+        subPane.setLayoutX(400); subPane.setLayoutX(100);
+        subPane.getChildren().addAll(btnChoose, btnCancel, btnNext, btnPrev, this.pc_name_textfield, this.pc_bio_textarea, pc_stats_textarea, pc_description_textarea);
         panename.getChildren().add(subPane);
         
         useArrowKeys(); 
+        
+        arvfx.buttonEffects(btnChoose);
+        arvfx.buttonEffects(btnCancel);
+        arvfx.buttonEffects(btnNext);
+        arvfx.buttonEffects(btnPrev);
         
         
         
     //ActionListener block ----------------------------------------------------------------------------------
         //Choose selected hero_name-------------------------------------------------------------------------------
-        choosebutton.setOnAction(Action -> {
+        btnChoose.setOnAction(Action -> {
             pc_name_textfield.setText("You have selected: "+hero_name);
             setHero_name(hero_name);
                         
         });
         
         //Back to previous page (Main menu)------------------------------------------------------------------
-        cancelbutton.setOnAction(Action -> {
+        btnCancel.setOnAction(Action -> {
             ArvenarFXMain.stageElven.setScene(ArvenarFXMain.sceneElven);
             ArvenarFXMain.stageElven.setFullScreen(ArvenarFXMain.flagFullScreen);
         });
         
         //Get the next Player---------------------------------------------------------------------------------
-        nextbutton.setOnAction(Action -> nextPlayer()); 
+        btnNext.setOnAction(Action -> nextPlayer()); 
         //--------------------------------------------------------------------------------------------------------
         
         //Get the previous Player---------------------------------------------------------------------------------
-        prevbutton.setOnAction(Action -> previousPlayer());
+        btnPrev.setOnAction(Action -> previousPlayer());
                 
     }
         
@@ -177,8 +183,8 @@ public class ArvenarSetPC {
                     
             
             pc_imgview = new ImageView(new Image(inputimg));
-            pc_imgview.setLayoutX(900);
-            pc_imgview.setLayoutY(400);
+            pc_imgview.setLayoutX(700);
+            pc_imgview.setLayoutY(200);
             panename.getChildren().add(pc_imgview);
             
         } catch (FileNotFoundException ex) {

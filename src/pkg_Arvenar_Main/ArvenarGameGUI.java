@@ -69,10 +69,10 @@ public class ArvenarGameGUI{
     int pirate_x = 205, pirate_y = 175;
     int j = 0;
     int rx = 0, ry = 0;
-    int playableAreaX = 750;
-    int playableAreaY = 750;
     
-    final int MAX_X = playableAreaX-30, MAX_Y = playableAreaX-30;
+    int playableAreaX = 700; //(int)(ArvenarFXMain.stageElven.getWidth() / 2);
+    int playableAreaY = 500; //(int)(ArvenarFXMain.stageElven.getHeight() / 2);
+    final int MAX_X = playableAreaX-30, MAX_Y = playableAreaY-30;
     final int MIN_X = 10, MIN_Y = 10;
     
     Button btnPlayGame = new Button("Play game");
@@ -88,6 +88,8 @@ public class ArvenarGameGUI{
                 
     public ArvenarGameGUI() throws FileNotFoundException{ //ez nem lehet void, különben üres stage-t kapsz vissza!!
       
+        System.out.println(playableAreaX+"/"+playableAreaY);
+        
         FileInputStream cmp_img = new FileInputStream("src/img/compass.jpg");
                 
         gamestage.setTitle("Arvenar main run");
@@ -106,13 +108,12 @@ public class ArvenarGameGUI{
          
         
         infoText = arvfx.setTextEffect(infoText, arvfx.glowEffect, null, Font.font("Verdana", FontWeight.BOLD, 14), Color.GOLD, 250, 20);
-        dialogText = arvfx.setTextEffect(dialogText, arvfx.glowEffect, null, Font.font("Verdana", FontWeight.BOLD, 18), Color.DEEPSKYBLUE, 20, 30);
+        dialogText = arvfx.setTextEffect(dialogText, null, null, Font.font("Verdana", FontWeight.BOLD, 18), Color.BEIGE, 20, 30);
         
         gameareapane.setLayoutX(250); gameareapane.setLayoutY(50);
         gameareapane.setMaxSize(playableAreaX, playableAreaY); gameareapane.setMinSize(playableAreaX, playableAreaY);
         gameareapane.setStyle("-fx-background-color: lightblue;");
-        
-                       
+                               
         gamestage.setMinWidth(1366);
         gamestage.setMinHeight(768);
         
@@ -120,11 +121,10 @@ public class ArvenarGameGUI{
         cmpass.setLayoutX(90); cmpass.setLayoutY(210);
         gamestage.initModality(Modality.APPLICATION_MODAL);
                
-        dialogHBox.setLayoutX(220); dialogHBox.setLayoutY(820);
-        dialogHBox.setSpacing(10);
-        dialogPane.setLayoutX(250); dialogPane.setLayoutY(820);
+        dialogHBox.setLayoutX(210); dialogHBox.setLayoutY(560);
+                
         dialogPane.setMinHeight(100); dialogPane.setMinWidth(800);
-        dialogPane.setStyle("-fx-background-color: rgba(0, 50, 200, 0.2); -fx-background-radius: 10;"); //transparent and rounded dialog box
+        dialogPane.setStyle("-fx-background-color: rgba(0, 50, 128, 0.2); -fx-background-radius: 5;"); //transparent and rounded dialog box
         
         dialogPane.setEffect(arvfx.setShadowEffect(2.0, 2.0, 0.70, Color.AQUA, 0.3, 0.3, 0.3));
         

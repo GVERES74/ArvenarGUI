@@ -17,7 +17,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pkg_Characters.Character_DataBase_NPC;
@@ -34,6 +33,7 @@ public class Arvenar_View_NPC {
     
     Summon_Characters clone = new Summon_Characters();
     Character_DataBase_NPC cdbase_npc = new Character_DataBase_NPC();
+    ArvenarEffects arvfx = new ArvenarEffects();
             
     FileInputStream inputImg = new FileInputStream("src/img/npc_animal_bbear1.jpg");
     Image selectedpcimage = new Image(inputImg);
@@ -80,17 +80,17 @@ public class Arvenar_View_NPC {
         stagename.setResizable(false);
         stagename.initModality(Modality.APPLICATION_MODAL);
         
-        Button chooseButton = new Button("Choose character"); 
-        Button cancelButton = new Button("Back"); 
-        Button nextButton = new Button("Next"); 
-        Button prevButton = new Button("Previous");
+        Button btnChoose = new Button("Choose character"); 
+        Button btnCancel = new Button("Back"); 
+        Button btnNext = new Button("Next"); 
+        Button btnPrev = new Button("Previous");
         selectHBox1.setLayoutX(150); selectHBox1.setLayoutY(50); selectHBox1.setSpacing(60);
         buttonsHBox2.setLayoutX(50); buttonsHBox2.setLayoutY(450); buttonsHBox2.setSpacing(100);
         dataHBox3.setLayoutX(50); dataHBox3.setLayoutY(220); dataHBox3.setSpacing(20);
         bioHBox4.setLayoutX(50); bioHBox4.setLayoutY(100);
         
-        selectHBox1.getChildren().addAll(prevButton, npc_Name_TextField, nextButton);
-        buttonsHBox2.getChildren().addAll(cancelButton, chooseButton);
+        selectHBox1.getChildren().addAll(btnPrev, npc_Name_TextField, btnNext);
+        buttonsHBox2.getChildren().addAll(btnCancel, btnChoose);
         dataHBox3.getChildren().addAll(npc_Stats_TextArea, npc_Description_TextArea);
         bioHBox4.getChildren().add(npc_Bio_TextArea);
         subPane.setLayoutX(500); subPane.setLayoutY(100);
@@ -99,29 +99,37 @@ public class Arvenar_View_NPC {
         panename.getChildren().add(subPane);
                 
         useArrowKeys();
+        
+        arvfx.buttonEffects(btnChoose);
+        arvfx.buttonEffects(btnCancel);
+        arvfx.buttonEffects(btnNext);
+        arvfx.buttonEffects(btnPrev);
+        
+        
+        
     //ActionListener block ----------------------------------------------------------------------------------
         
         
         //Choose selected hero_name-------------------------------------------------------------------------------
-        chooseButton.setOnAction(Action -> {
+        btnChoose.setOnAction(Action -> {
             npc_Name_TextField.setText("You are viewing: "+npc_name);
             
         });
         
         //Back to previous page (Main menu)------------------------------------------------------------------
-        cancelButton.setOnAction(Action -> {
+        btnCancel.setOnAction(Action -> {
             ArvenarFXMain.stageElven.setScene(ArvenarFXMain.sceneElven);
             ArvenarFXMain.stageElven.setFullScreen(ArvenarFXMain.flagFullScreen);
         });
                                   
                
         //Get the next Player---------------------------------------------------------------------------------
-        nextButton.setOnAction(Action -> nextNpc());
+        btnNext.setOnAction(Action -> nextNpc());
                 
         //--------------------------------------------------------------------------------------------------------
         
         //Get the previous Player---------------------------------------------------------------------------------
-        prevButton.setOnAction(Action -> previousNpc());
+        btnPrev.setOnAction(Action -> previousNpc());
                 
     }
         

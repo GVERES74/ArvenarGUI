@@ -23,9 +23,6 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import pkg_Characters.Character_DataBase_NPC;
-import pkg_Characters.Character_DataBase_PC;
-import pkg_Characters.Summon_Characters;
 import pkg_Maps.Arvenar_Maps;
 import pkg_Maps.Map_DataBase;
 
@@ -37,7 +34,8 @@ public class Arvenar_View_Maps {
     
      int i = 0;
     
-    Map_DataBase maps = new Map_DataBase();        
+    Map_DataBase maps = new Map_DataBase(); 
+    ArvenarEffects arvfx = new ArvenarEffects();
     FileInputStream map_inputimg = new FileInputStream("src/maps/m1_forest.jpg");
     Image selected_map_image = new Image(map_inputimg);
     ImageView map_imgview = new ImageView(selected_map_image);
@@ -78,24 +76,32 @@ public class Arvenar_View_Maps {
         stage_view_maps.setResizable(false);
         stage_view_maps.initModality(Modality.APPLICATION_MODAL);
         
-        Button choosebutton = new Button("Choose map"); choosebutton.setLayoutX(300); choosebutton.setLayoutY(520);
-        Button cancelbutton = new Button("Back"); cancelbutton.setLayoutX(50); cancelbutton.setLayoutY(520);
-        Button nextbutton = new Button("Next"); nextbutton.setLayoutX(500); nextbutton.setLayoutY(50);
-        Button prevbutton = new Button("Previous"); prevbutton.setLayoutX(200); prevbutton.setLayoutY(50);
+        Button btnChoose = new Button("Choose map"); btnChoose.setLayoutX(300); btnChoose.setLayoutY(520);
+        Button btnCancel = new Button("Back"); btnCancel.setLayoutX(50); btnCancel.setLayoutY(520);
+        Button btnNext = new Button("Next"); btnNext.setLayoutX(500); btnNext.setLayoutY(50);
+        Button btnPrev = new Button("Previous"); btnPrev.setLayoutX(200); btnPrev.setLayoutY(50);
         
         get_Selected_Map();
         pane_view_maps.setBackground(new Background(new BackgroundImage(new Image("/img/bkg_maps.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         scene_view_maps = new Scene(pane_view_maps);
-        subPane.setLayoutX(500); subPane.setLayoutY(200);
-        subPane.getChildren().addAll(choosebutton, cancelbutton, nextbutton, prevbutton, map_name_textfield, map_inhabit_textarea, map_story_textarea, map_description_textarea);
+        subPane.setLayoutX(100); subPane.setLayoutY(0);
+        subPane.getChildren().addAll(btnChoose, btnCancel, btnNext, btnPrev, map_name_textfield, map_inhabit_textarea, map_story_textarea, map_description_textarea);
         pane_view_maps.getChildren().add(subPane);
                 
         useArrowKeys();
+        
+        arvfx.buttonEffects(btnChoose);
+        arvfx.buttonEffects(btnCancel);
+        arvfx.buttonEffects(btnNext);
+        arvfx.buttonEffects(btnPrev);
+        
+        
+        
     //ActionListener block ----------------------------------------------------------------------------------
         
         
         //Choose selected hero_name-------------------------------------------------------------------------------
-        choosebutton.setOnAction(Action -> {
+        btnChoose.setOnAction(Action -> {
             map_name_textfield.setText("You are viewing: "+maps.getMap(i).getMap_name());
             choosen_map = maps.getMap(i);
             
@@ -103,19 +109,19 @@ public class Arvenar_View_Maps {
         });
         
         //Back to previous page (Main menu)------------------------------------------------------------------
-        cancelbutton.setOnAction(Action -> {
+        btnCancel.setOnAction(Action -> {
             ArvenarFXMain.stageElven.setScene(ArvenarFXMain.sceneElven);
             ArvenarFXMain.stageElven.setFullScreen(ArvenarFXMain.flagFullScreen);
                 });
                                   
                
         //Get the next Player---------------------------------------------------------------------------------
-        nextbutton.setOnAction(Action -> nextMap());
+        btnNext.setOnAction(Action -> nextMap());
                 
         //--------------------------------------------------------------------------------------------------------
         
         //Get the previous Player---------------------------------------------------------------------------------
-        prevbutton.setOnAction(Action -> previousMap());
+        btnPrev.setOnAction(Action -> previousMap());
                 
     }
         
@@ -169,8 +175,8 @@ public class Arvenar_View_Maps {
              selected_map_name = maps.getMap(i).getMap_name();
              
              map_imgview = new ImageView(new Image(map_inputimg));
-             map_imgview.setLayoutX(600);
-             map_imgview.setLayoutY(300);
+             map_imgview.setLayoutX(200);
+             map_imgview.setLayoutY(100);
              pane_view_maps.getChildren().add(map_imgview);
          } catch (FileNotFoundException ex) {
              Logger.getLogger(Arvenar_View_NPC.class.getName()).log(Level.SEVERE, null, ex);

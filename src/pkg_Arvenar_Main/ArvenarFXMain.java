@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -40,7 +41,8 @@ import javax.swing.JOptionPane;
  */
 public class ArvenarFXMain extends Application {
     
-        public static int resX, resY;
+        public static int resX = 1366;
+        public static int resY = 768;
         static Stage stageElven;
         public static boolean flagFullScreen;
         static Scene sceneElven;
@@ -62,22 +64,21 @@ public class ArvenarFXMain extends Application {
         
         Tooltip tt = new Tooltip();
         Pane paneElven = new StackPane();
-        Text versionText = new Text("Arvenar GUI version - Build 10.08.20");
+        Text versionText = new Text("Arvenar GUI version - Build 18.08.20");
         VBox buttonsVBox = new VBox();     
-        Image bkgImage = new Image("img/bkg_main.jpg", 1920 , 1080, true, false, true);
         
-        resX = 1920; resY = 1080; //static settings vars
+        Image bkgImage = new Image("img/bkg_main.jpg");
+        
+        
         stageElven = new Stage();
         stageElven.setTitle("Arvenar - Elven Tales - 2020 - by Gabor Veres");
         paneElven.setBackground(new Background(new BackgroundImage(bkgImage, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         
         sceneElven = new Scene(paneElven);
         
-        stageElven.setResizable(true);
+        stageElven.setResizable(false);
         
-        stageElven.setHeight(resY); stageElven.setWidth(resX);
         
-       
         stageElven.setScene(sceneElven);
         TextArea gameTextArea = new TextArea("Waiting for input....\n");
          
@@ -98,10 +99,12 @@ public class ArvenarFXMain extends Application {
         
         buttonsVBox.setTranslateX(30); buttonsVBox.setTranslateY(30);
         buttonsVBox.setSpacing(20); 
+        
         versionText = arvfx.setTextEffect(versionText, arvfx.glowEffect, arvfx.reflectionEffect, Font.font("Verdana", FontWeight.BOLD, 20), Color.CORAL, 400, 300);
         buttonsVBox.getChildren().addAll(startButton, pcButton, mapsButton, npcButton, settingsButton, creditsButton, exitButton, playButton, stopButton);
         paneElven.getChildren().addAll(buttonsVBox, versionText);
         
+        stageElven.setHeight(resY); stageElven.setWidth(resX);
         stageElven.setFullScreen(flagFullScreen);        
         stageElven.show();
         MPlayer.mPlayer_start("journey.mp3", true, 5);    

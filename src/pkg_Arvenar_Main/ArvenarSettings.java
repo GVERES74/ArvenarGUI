@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
@@ -39,13 +40,15 @@ public class ArvenarSettings {
     Scene settings_scene;
     Pane audio_pane = new Pane();
     Pane video_pane = new Pane();
-    CheckBox chkbox_music = new CheckBox();
-    CheckBox chkbox_fullScreen = new CheckBox();
+    CheckBox cbMusic = new CheckBox();
+    CheckBox cbFullScreen = new CheckBox();
+    ChoiceBox cbResolution = new ChoiceBox();
     Slider slider_music = new Slider(0,100,50);
     Label slider_music_label = new Label("Music volume:");
     Label slider_volume_label = new Label("50%");
     Label label_music = new Label("Music On / Off");
     Label label_is_Fullscreen = new Label("Fullscreen On / Off");
+    Label labelResolution = new Label("Select display resolution");
     Tooltip slider_music_tt = new Tooltip();
     Text sceneText = new Text("SETTINGS");
     
@@ -58,14 +61,14 @@ public class ArvenarSettings {
         settings_stage.setTitle("Game settings");
         settings_stage.setScene(settings_scene);
         
-        Button btn_accept_changes = new Button("Accept settings"); btn_accept_changes.setLayoutX(50); btn_accept_changes.setLayoutY(400);
-        Button btn_exit_settings = new Button("Back to main menu"); btn_exit_settings.setLayoutX(50); btn_exit_settings.setLayoutY(450);
+        Button btnAccept = new Button("Accept settings"); btnAccept.setLayoutX(50); btnAccept.setLayoutY(400);
+        Button btnExit = new Button("Back to main menu"); btnExit.setLayoutX(50); btnExit.setLayoutY(450);
         
         
         audio_pane.setLayoutX(50); audio_pane.setLayoutY(50);
         audio_pane.setMaxSize(350, 110); audio_pane.setMinSize(350, 110);
-        audio_pane.setStyle("-fx-border-color: gray");
-        chkbox_music.setLayoutX(140); chkbox_music.setLayoutY(9); chkbox_music.setSelected(true);
+        audio_pane.setStyle("-fx-background-color: rgba(0, 50, 50, 0.2); -fx-background-radius: 5;");
+        cbMusic.setLayoutX(140); cbMusic.setLayoutY(9); cbMusic.setSelected(true);
         label_music.setLayoutX(20); label_music.setLayoutY(10);
         label_music.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
         slider_music.setLayoutX(130); slider_music.setLayoutY(62);
@@ -78,21 +81,29 @@ public class ArvenarSettings {
         
         video_pane.setLayoutX(50); video_pane.setLayoutY(200);
         video_pane.setMaxSize(350, 110); video_pane.setMinSize(350, 110);
-        video_pane.setStyle("-fx-border-color: gray");
+        video_pane.setStyle("-fx-background-color: rgba(0, 50, 50, 0.2); -fx-background-radius: 5;");
         label_is_Fullscreen.setLayoutX(20); label_is_Fullscreen.setLayoutY(20);
         label_is_Fullscreen.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
-        chkbox_fullScreen.setLayoutX(170); chkbox_fullScreen.setLayoutY(18); chkbox_fullScreen.setSelected(false);
+        labelResolution.setLayoutX(20); labelResolution.setLayoutY(50);
+        labelResolution.setFont(Font.font("Verdana", FontWeight.BOLD, 12));
+        cbFullScreen.setLayoutX(170); cbFullScreen.setLayoutY(18); cbFullScreen.setSelected(false);
+        cbResolution.setLayoutX(170); cbResolution.setLayoutY(50);
+        cbResolution.getItems().add("1366x768"); cbResolution.getItems().add("1920x1080"); cbResolution.setValue("1366x768");
         sceneText = arvfx.setTextEffect(sceneText, arvfx.setGlowEffect(0.5), null, Font.font("Verdana", FontWeight.BOLD, 36), Color.SILVER, 50, 800);
         
         /*settings_stage.setMinWidth(800);
         settings_stage.setMinHeight(600);
         settings_stage.initModality(Modality.APPLICATION_MODAL);*/
         
-        audio_pane.getChildren().addAll(chkbox_music, label_music, slider_music, slider_music_label, slider_volume_label);
-        video_pane.getChildren().addAll(label_is_Fullscreen, chkbox_fullScreen);
+        audio_pane.getChildren().addAll(cbMusic, label_music, slider_music, slider_music_label, slider_volume_label);
+        video_pane.getChildren().addAll(label_is_Fullscreen, cbFullScreen, labelResolution, cbResolution);
         settings_pane.setBackground(new Background(new BackgroundImage(new Image("/img/bkg_settings.jpg"), BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT)));
         settings_scene = new Scene(settings_pane);
-        settings_pane.getChildren().addAll(btn_accept_changes, btn_exit_settings, audio_pane, video_pane, sceneText);
+        settings_pane.getChildren().addAll(btnAccept, btnExit, audio_pane, video_pane, sceneText);
+        
+        
+        arvfx.buttonEffects(btnAccept);
+        arvfx.buttonEffects(btnExit);
         
         //---------------------------------------------------    
         
@@ -107,17 +118,17 @@ public class ArvenarSettings {
         });
         
         
-        chkbox_music.setOnAction(action -> {
+        cbMusic.setOnAction(action -> {
             
             try{
-            if (chkbox_music.isSelected() == true){
+            if (cbMusic.isSelected() == true){
             
                 slider_music.setDisable(false);
                 MPlayer.setAudio_on(true);
                 
             }
             
-            else if (chkbox_music.isSelected() == false){
+            else if (cbMusic.isSelected() == false){
                 
                 slider_music.setDisable(true);
                 MPlayer.setAudio_on(false);
@@ -135,7 +146,8 @@ public class ArvenarSettings {
         });
         
         
-        btn_accept_changes.setOnAction(action -> {
+        
+        btnAccept.setOnAction(action -> {
              
             JFrame frame = new JFrame();
             Object[] options = {"Yes","No"};
@@ -144,9 +156,13 @@ public class ArvenarSettings {
             if (opt == JOptionPane.YES_OPTION){
                 try {
                     //settings_stage.close();
-                    
+                    switch ((String) cbResolution.getValue()){
+                            case "1366x768": ArvenarFXMain.stageElven.setWidth(1366); ArvenarFXMain.stageElven.setHeight(768); break;
+                            case "1920x1080": ArvenarFXMain.stageElven.setWidth(1920); ArvenarFXMain.stageElven.setHeight(1080); break;
+                    }
+                                        
                     ArvenarFXMain.stageElven.setScene(ArvenarFXMain.sceneElven);
-                    if (chkbox_fullScreen.isSelected()){
+                    if (cbFullScreen.isSelected()){
                         ArvenarFXMain.flagFullScreen = true;
                         ArvenarFXMain.stageElven.setFullScreen(true);
                     }
@@ -165,7 +181,7 @@ public class ArvenarSettings {
          
          );
             
-         btn_exit_settings.setOnAction(action -> {
+         btnExit.setOnAction(action -> {
              
             JFrame frame = new JFrame();
             Object[] options = {"Yes","No"};
