@@ -12,6 +12,7 @@ import javafx.scene.effect.Glow;
 import javafx.scene.effect.Reflection;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 /**
@@ -58,8 +59,30 @@ public class ArvenarEffects {
         
     }
     
-    public Glow setGlowEffect(Double glevel){
+    public void btnTextEffects(Text text){
         
+                
+        text.setOnMouseEntered(action -> {
+            text.setEffect(setShadowEffect(2.0, 2.0, 0.50, Color.AQUA, 0.4, 0.5, 0.3)); //0.0 = black; 1.0 = white
+            //button.setEffect(setGlowEffect(0.2));
+            //button.setEffect(setReflectionEffect());
+            text.setScaleX(1.2); text.setScaleY(1.2);
+            //button.setTranslateX(20);
+        });
+        
+        text.setOnMouseExited(action -> {
+            text.setEffect(null);
+            text.setScaleX(1.0); text.setScaleY(1.0);
+            text.setTranslateX(0);
+        });
+        
+        
+        
+    }
+    
+    
+    public Glow setGlowEffect(Double glevel){
+        //glowEffect.setLevel(0.0);
         glowEffect.setLevel(glevel);
         return glowEffect;
     }
@@ -73,6 +96,7 @@ public class ArvenarEffects {
     
     
     public Text setTextEffect(Text text, Effect effect1, Effect effect2, Font font, Color color, int posX, int posY){
+        
         
         text.setEffect(effect1);
         text.setEffect(effect2);

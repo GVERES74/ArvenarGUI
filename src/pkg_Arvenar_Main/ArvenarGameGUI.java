@@ -275,6 +275,7 @@ public class ArvenarGameGUI{
     }
     
     
+        
     public void show_GameGUI(){
         
          gamestage.show();
@@ -298,7 +299,7 @@ public class ArvenarGameGUI{
             ptt.setGraphic(pirate_imgv); //Lásd: hints.txt
             pirate.setTooltip(ptt);
             pirate.setLayoutX(rx); pirate.setLayoutY(ry);
-            System.out.println(rx+" / "+ry);
+            System.out.println(rx+" / "+ry); //developer mode
             
         gameareapane.getChildren().add(pirate);
         
