@@ -34,6 +34,7 @@ public class Arvenar_View_NPC {
     Summon_Characters clone = new Summon_Characters();
     Character_DataBase_NPC cdbase_npc = new Character_DataBase_NPC();
     ArvenarEffects arvfx = new ArvenarEffects();
+    ArvenarExtras arvextras;
             
     FileInputStream inputImg = new FileInputStream("src/img/npc_animal_bbear1.jpg");
     Image selectedpcimage = new Image(inputImg);
@@ -118,7 +119,12 @@ public class Arvenar_View_NPC {
         
         //Back to previous page (Main menu)------------------------------------------------------------------
         btnCancel.setOnAction(Action -> {
-            ArvenarFXMain.stageElven.setScene(ArvenarFXMain.sceneElven);
+            try {
+                arvextras = new ArvenarExtras();
+            } catch (Exception ex) {
+                Logger.getLogger(ArvenarSetPC.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ArvenarFXMain.stageElven.setScene(ArvenarExtras.extras_scene);
             ArvenarFXMain.stageElven.setFullScreen(ArvenarFXMain.flagFullScreen);
         });
                                   

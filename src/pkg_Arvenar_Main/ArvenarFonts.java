@@ -30,6 +30,7 @@ public class ArvenarFonts {
         text.setFont(font);
         text.setFill(color);
         text.setTranslateX(posX); text.setTranslateY(posY);
+        text.setStyle("-fx-background-color: rgba(128, 128, 128, 0.8); -fx-background-radius: 5; -fx-padding: 5;");
         return text;
     
     } 

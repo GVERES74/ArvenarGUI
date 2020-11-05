@@ -36,6 +36,7 @@ public class Arvenar_View_Maps {
     
     Map_DataBase maps = new Map_DataBase(); 
     ArvenarEffects arvfx = new ArvenarEffects();
+    ArvenarExtras arvextras;
     FileInputStream map_inputimg = new FileInputStream("src/maps/m1_forest.jpg");
     Image selected_map_image = new Image(map_inputimg);
     ImageView map_imgview = new ImageView(selected_map_image);
@@ -110,9 +111,14 @@ public class Arvenar_View_Maps {
         
         //Back to previous page (Main menu)------------------------------------------------------------------
         btnCancel.setOnAction(Action -> {
-            ArvenarFXMain.stageElven.setScene(ArvenarFXMain.sceneElven);
+            try {
+                arvextras = new ArvenarExtras();
+            } catch (Exception ex) {
+                Logger.getLogger(ArvenarSetPC.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ArvenarFXMain.stageElven.setScene(ArvenarExtras.extras_scene);
             ArvenarFXMain.stageElven.setFullScreen(ArvenarFXMain.flagFullScreen);
-                });
+        });
                                   
                
         //Get the next Player---------------------------------------------------------------------------------

@@ -14,7 +14,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -45,14 +44,16 @@ public class ArvenarFXMain extends Application {
         static Stage stageElven;
         public static boolean flagFullScreen;
         static Scene sceneElven;
-        Arvenar_View_NPC view_npc;
+        
         static ArvenarEffects arvfx = new ArvenarEffects();
         ArvenarFonts arvfonts;
         ArvenarCredits credits;
-        static Text mTxtStartGame, mTxtPc, mTxtSettings, mTxtMaps, mTxtNpc, mTxtCredits, mTxtExit, mTxtPlayMusic, mTxtStopMusic, versionText;
+        ArvenarExtras extras;
+        static Text mTxtStartGame, mTxtSettings, mTxtExtras, mTxtCredits, mTxtExit, versionText;
         static double g, h;
         static int starposX;
         static int starposY;
+        static int starspeed;
         
         Pane paneElven;
         static ImageView starImgView; 
@@ -64,12 +65,10 @@ public class ArvenarFXMain extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("ArvenarFx.fxml"));
 
         Arvenar_App elvenarapp = new Arvenar_App(); //Példányosítani kell, nem lehet direkt hivatkozni, mint pl. "Arvenar_App.fight()"!!
-        ArvenarSetPC arvenarset = new ArvenarSetPC();
-        Arvenar_View_Maps view_maps = new Arvenar_View_Maps();
-                          view_npc = new Arvenar_View_NPC();
+        
         ArvenarGameGUI gamegui = new ArvenarGameGUI();
         ArvenarSettings gsettings = new ArvenarSettings();
-        
+                
         arvfonts = new ArvenarFonts();
         
         
@@ -88,60 +87,48 @@ public class ArvenarFXMain extends Application {
         sceneElven = new Scene(paneElven);
         
         stageElven.setResizable(false);
-        
-        
+                
         stageElven.setScene(sceneElven);
-        TextArea gameTextArea = new TextArea("Waiting for input....\n");
+        
                          
         FileInputStream starFx = new FileInputStream("src/img/starfx.png");
         starimg = new Image(starFx);
         starImgView = new ImageView(starimg);
         //starImgView.setOpacity(0.2);
-        
-                       
                 
         mTxtStartGame = arvfonts.newTextFormat("Start game", mTxtStartGame, arvfx.setGlowEffect(0.0), null, Font.font("Verdana", FontWeight.BOLD, 24), Color.CORAL, 0, 0);
-        mTxtPc = arvfonts.newTextFormat("Select Hero", mTxtPc, arvfx.setGlowEffect(0.0), null, Font.font("Verdana", FontWeight.BOLD, 24), Color.CORAL, 0, 0);
+        
         mTxtSettings = arvfonts.newTextFormat("Game settings", mTxtSettings, arvfx.setGlowEffect(0.0), null, Font.font("Verdana", FontWeight.BOLD, 24), Color.CORAL, 0, 0);
-        mTxtMaps = arvfonts.newTextFormat("View maps", mTxtMaps, arvfx.setGlowEffect(0.0), null, Font.font("Verdana", FontWeight.BOLD, 24), Color.CORAL, 0, 0);
-        mTxtNpc = arvfonts.newTextFormat("Show characters", mTxtNpc, arvfx.setGlowEffect(0.0), null, Font.font("Verdana", FontWeight.BOLD, 24), Color.CORAL, 0, 0);
+        mTxtExtras = arvfonts.newTextFormat("Extras", mTxtExtras, arvfx.setGlowEffect(0.0), null, Font.font("Verdana", FontWeight.BOLD, 24), Color.CORAL, 0, 0);
         mTxtCredits = arvfonts.newTextFormat("Credits", mTxtCredits, arvfx.setGlowEffect(0.0), null, Font.font("Verdana", FontWeight.BOLD, 24), Color.CORAL, 0, 0);
         mTxtExit = arvfonts.newTextFormat("Exit game", mTxtExit, arvfx.setGlowEffect(0.0), null, Font.font("Verdana", FontWeight.BOLD, 24), Color.CORAL, 0, 0);
-        mTxtPlayMusic = arvfonts.newTextFormat("Play music", mTxtPlayMusic, arvfx.setGlowEffect(0.0), null, Font.font("Verdana", FontWeight.BOLD, 24), Color.CORAL, 0, 0); //playButton.setPrefWidth(150); playButton.setGraphic(new ImageView(new Image("file:\\c:\\Users\\te332168\\Documents\\NetBeansProjects\\Arvenar\\src\\img\\music_play.png"))); playButton.setTooltip(new Tooltip("Play main theme"));
-        mTxtStopMusic = arvfonts.newTextFormat("Stop music", mTxtStopMusic, arvfx.setGlowEffect(0.0), null, Font.font("Verdana", FontWeight.BOLD, 24), Color.CORAL, 0, 0); //stopButton.setPrefWidth(150); stopButton.setGraphic(new ImageView(new Image("file:\\c:\\Users\\te332168\\Documents\\NetBeansProjects\\Arvenar\\src\\img\\music_stop.png"))); stopButton.setTooltip(new Tooltip("Stop music"));
-        
+                
         mTxtVBox.setTranslateX(30); mTxtVBox.setTranslateY(30);
         mTxtVBox.setSpacing(20); 
+        mTxtVBox.setStyle("-fx-background-color: rgba(64, 50, 128, 0.2); -fx-background-radius: 5; -fx-padding: 30;"); //transparent and rounded VBox with padding
         
-        versionText = arvfonts.newTextFormat("Arvenar GUI version - Build 07.09.20", versionText, null, arvfx.reflectionEffect, Font.font("Verdana", FontWeight.BOLD, 20), Color.CORAL, 400, 300);
+        versionText = arvfonts.newTextFormat("Arvenar GUI version - Build 05.11.20", versionText, null, arvfx.reflectionEffect, Font.font("Verdana", FontWeight.BOLD, 20), Color.CORAL, 400, 300);
         
-        mTxtVBox.getChildren().addAll(mTxtStartGame, mTxtPc, mTxtSettings, mTxtMaps, mTxtNpc, mTxtCredits, mTxtExit, mTxtPlayMusic, mTxtStopMusic);
+        mTxtVBox.getChildren().addAll(mTxtStartGame, mTxtSettings, mTxtExtras, mTxtCredits, mTxtExit);
         paneElven.getChildren().addAll(mTxtVBox, versionText, starImgView);
-        
-        
+                
         stageElven.setHeight(resY); stageElven.setWidth(resX);
         stageElven.setFullScreen(flagFullScreen);        
         stageElven.show();
         MPlayer.mPlayer_start("journey.mp3", true, 5);    
         
         new GVTimer().mainTimer(100);
-        new GVTimer().starFaller(1);
+        //new GVTimer().starFaller(1);
         
         //--------------------------------------------------------
         arvfx.btnTextEffects(mTxtStartGame);
-        arvfx.btnTextEffects(mTxtPc);
         arvfx.btnTextEffects(mTxtSettings);
-        arvfx.btnTextEffects(mTxtMaps);
-        arvfx.btnTextEffects(mTxtNpc);
+        arvfx.btnTextEffects(mTxtExtras);
         arvfx.btnTextEffects(mTxtCredits);
         arvfx.btnTextEffects(mTxtExit);
-        arvfx.btnTextEffects(mTxtPlayMusic);
-        arvfx.btnTextEffects(mTxtStopMusic);
         
-        mTxtPlayMusic.setOnMouseClicked(action ->{MPlayer.mPlayer_start("journey.mp3", true, 5);});
+        //--------------------------------------------------------
         
-        mTxtStopMusic.setOnMouseClicked(action ->{MPlayer.mediaPlayer.stop();});
-                
         mTxtExit.setOnMouseClicked(action -> {
             
             JFrame frame = new JFrame();
@@ -167,8 +154,6 @@ public class ArvenarFXMain extends Application {
                 //elvenarapp.fight();
                 MPlayer.mPlayer_stop();
                 MPlayer.mPlayer_start("main.mp3", true, 5);
-                gameTextArea.appendText("Fight has been started...\n");
-                gameTextArea.appendText(arvenarset.getHeroName());
                 
         });
         
@@ -179,45 +164,24 @@ public class ArvenarFXMain extends Application {
             stageElven.setFullScreen(flagFullScreen);
         });
                 
-        mTxtPc.setOnMouseClicked(action -> {
-            MPlayer.mPlayer_stop();
-            MPlayer.mPlayer_start("menu.mp3", true, 5);
-            stageElven.setScene(arvenarset.pc_Scene());
-            stageElven.setFullScreen(flagFullScreen);  
-            //arvenarset.stagename.show();    
-            //elvenarapp.choose_Character();
-            gameTextArea.appendText("Character setting...\n");
-        
-        });
-        
-        
-        mTxtMaps.setOnMouseClicked(action -> {
-        
-        MPlayer.mPlayer_stop();
-        MPlayer.mPlayer_start("outdoor.mp3", true, 5);
-        stageElven.setScene(view_maps.maps_Scene());
-        stageElven.setFullScreen(flagFullScreen);
-        //view_maps.stage_view_maps.show();
-        //elvenarapp.view_Map_DataBase();
-        
-        });
-                
-        
-        mTxtNpc.setOnMouseClicked(action -> {
-        MPlayer.mPlayer_stop();
-        MPlayer.mPlayer_start("browse.mp3", true, 5);
+        mTxtExtras.setOnMouseClicked(action -> {
+            
+               
             try {
-                
-                stageElven.setScene(view_npc.npc_Scene());
-                stageElven.setFullScreen(flagFullScreen);
-                //view_npc.stagename.show();   
-                //elvenarapp.stats();
-                //elvenarapp.view_NpcDataBase();
-            } catch (Exception e) {
+                extras = new ArvenarExtras();
+            } catch (Exception ex) {
+                Logger.getLogger(ArvenarFXMain.class.getName()).log(Level.SEVERE, null, ex);
             }
-        gameTextArea.appendText("Character properties: "+arvenarset.getHeroName()+"\n");
+            
+            
+        MPlayer.mPlayer_stop();
+        MPlayer.mPlayer_start("credits1.mp3", true, 5);
+        stageElven.setScene(extras.extras_Scene());
+        stageElven.setFullScreen(flagFullScreen);
+                            
         });
-    
+        
+        
         mTxtCredits.setOnMouseClicked(action -> {
             try {
                 credits = new ArvenarCredits();
@@ -228,8 +192,7 @@ public class ArvenarFXMain extends Application {
         MPlayer.mPlayer_start("credits1.mp3", true, 5);
         stageElven.setScene(credits.credits_Scene());
         stageElven.setFullScreen(flagFullScreen);
-            
-                
+                            
         });
     
     }    
@@ -237,25 +200,23 @@ public class ArvenarFXMain extends Application {
     public static void buttonTxtFxer() {
     
                            
-                    if (arvfx.glowEffect.getLevel() < 0.1){
-                        g = g + 0.1;
+            if (arvfx.glowEffect.getLevel() < 0.1){
+                g = g + 0.1;
                                                 }        
-                    if (arvfx.glowEffect.getLevel() > 0.9) {
-                        g = g - 0.1;
+            if (arvfx.glowEffect.getLevel() > 0.9) {
+                g = g - 0.1;
                         
-                    }
+                }
                     mTxtStartGame.setEffect(arvfx.setGlowEffect(arvfx.glowEffect.getLevel()+g));
                     System.out.println("Glow: "+arvfx.glowEffect.getLevel());
-            
-            
+                       
     }   
-    
-    
+        
     public static void fallingStar() {
     
-        
-        starImgView.setTranslateX(starImgView.getTranslateX()+1);
-        starImgView.setTranslateY(starImgView.getTranslateY()+1);
+        starspeed = (int) (Math.random()*3);
+        starImgView.setTranslateX(starImgView.getTranslateX()+starspeed);
+        starImgView.setTranslateY(starImgView.getTranslateY()+starspeed);
         System.out.println(starImgView.getTranslateX()+" / "+starImgView.getTranslateY());
             
         if(starImgView.getTranslateY() > 400){
@@ -266,8 +227,7 @@ public class ArvenarFXMain extends Application {
         }
                     
     }   
-    
-    
+        
     public static void main(String[] args) throws FileNotFoundException {
       Application.launch(args); //Kell az Application.launch();!!
      
@@ -275,6 +235,5 @@ public class ArvenarFXMain extends Application {
     /**
      * @param args the command line arguments
      */
-    
-    
+        
 }

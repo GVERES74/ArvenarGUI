@@ -10,6 +10,8 @@ package pkg_Arvenar_Main;
 
 
 import java.io.FileNotFoundException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import pkg_Characters.Summon_Characters;
 
 
@@ -24,12 +26,17 @@ public class Arvenar_App{
     Arvenar_View_NPC view_npc = new Arvenar_View_NPC(); 
     Summon_Characters born = new Summon_Characters();
     Arvenar_View_Maps view_maps = new Arvenar_View_Maps();
-    ArvenarSettings setgame = new ArvenarSettings();
+    ArvenarSettings setgame;
     ArvenarGameGUI gamegui = new ArvenarGameGUI();
     
     
     public Arvenar_App() throws FileNotFoundException{
-     //Ez a konstruktor kell ahhoz, hogy lekezelje a fenti példányosítást.
+        try {
+            //Ez a konstruktor kell ahhoz, hogy lekezelje a fenti példányosítást.
+            setgame = new ArvenarSettings();
+        } catch (Exception ex) {
+            Logger.getLogger(Arvenar_App.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     //public static void main(String[] args){ !!Itt nem lehet main függvény, ha máshol már van!! --> ElvenFXMain.java

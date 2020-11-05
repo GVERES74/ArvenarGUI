@@ -36,6 +36,7 @@ public class ArvenarSetPC {
     Character_DataBase_PC cdbase_pc = new Character_DataBase_PC();
     MPlayer play_music; //ne példányosítsd!!
     ArvenarEffects arvfx = new ArvenarEffects();
+    ArvenarExtras arvextras;
     
     FileInputStream inputimg = new FileInputStream("src/img/pc_human_warrior_arthur.jpg");
     
@@ -110,7 +111,12 @@ public class ArvenarSetPC {
         
         //Back to previous page (Main menu)------------------------------------------------------------------
         btnCancel.setOnAction(Action -> {
-            ArvenarFXMain.stageElven.setScene(ArvenarFXMain.sceneElven);
+            try {
+                arvextras = new ArvenarExtras();
+            } catch (Exception ex) {
+                Logger.getLogger(ArvenarSetPC.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            ArvenarFXMain.stageElven.setScene(ArvenarExtras.extras_scene);
             ArvenarFXMain.stageElven.setFullScreen(ArvenarFXMain.flagFullScreen);
         });
         

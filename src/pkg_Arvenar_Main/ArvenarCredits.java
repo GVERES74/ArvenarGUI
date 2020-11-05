@@ -5,21 +5,14 @@
  */
 package pkg_Arvenar_Main;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.scene.Scene;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import static javafx.scene.input.KeyCode.ESCAPE;
 
@@ -34,7 +27,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javax.swing.Timer;
 
 
@@ -52,7 +44,8 @@ static Text escText;
 static Text creditsText; //Itt ne példányosítsd!
 static Timer delayer;
 String str;
-static double g = 0.01;
+//static double g = 0.01;
+static double g;
 BufferedReader creditsBR;
 ArvenarFXMain arvfxmain = new ArvenarFXMain();
 static ArvenarEffects arveffects = new ArvenarEffects();
@@ -76,7 +69,7 @@ ArvenarFonts arvfonts = new ArvenarFonts();
         //moveText();
         
         new GVTimer().textMover(50);
-        new GVTimer().textScaler(100);
+        new GVTimer().textScaler(500);
                 
         creditsScene.setOnKeyPressed(event ->{
             switch  (event.getCode()){
@@ -141,18 +134,19 @@ ArvenarFonts arvfonts = new ArvenarFonts();
         
     public static void vibraText(){
               
-            if(escText.getScaleY() < -1.0) {
+            if(escText.getScaleY() < 1) {
                 g = g + 0.01;
             }
               
             if(escText.getScaleY() > 0.9) {
-                g = g +-0.01;
+                g = g -0.01;
             }
             
             escText.setScaleY(escText.getScaleY()+g);
+            escText.setScaleX(escText.getScaleX()+g);
               System.out.println("Value: "+g);
                                       
-          
+         
         
      }  
         

@@ -60,14 +60,15 @@ public class ArvenarEffects {
     }
     
     public void btnTextEffects(Text text){
-        
-                
+                        
         text.setOnMouseEntered(action -> {
             text.setEffect(setShadowEffect(2.0, 2.0, 0.50, Color.AQUA, 0.4, 0.5, 0.3)); //0.0 = black; 1.0 = white
+            
             //button.setEffect(setGlowEffect(0.2));
             //button.setEffect(setReflectionEffect());
             text.setScaleX(1.2); text.setScaleY(1.2);
             //button.setTranslateX(20);
+            
         });
         
         text.setOnMouseExited(action -> {
@@ -75,8 +76,6 @@ public class ArvenarEffects {
             text.setScaleX(1.0); text.setScaleY(1.0);
             text.setTranslateX(0);
         });
-        
-        
         
     }
     
@@ -97,7 +96,6 @@ public class ArvenarEffects {
     
     public Text setTextEffect(Text text, Effect effect1, Effect effect2, Font font, Color color, int posX, int posY){
         
-        
         text.setEffect(effect1);
         text.setEffect(effect2);
         text.setFont(font);
@@ -107,6 +105,5 @@ public class ArvenarEffects {
     
     }
 
-   
-    
+       
 }

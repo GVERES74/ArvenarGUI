@@ -77,7 +77,8 @@ public class ArvenarGameGUI{
     
     Button btnPlayGame = new Button("Play game");
     Button btnExitGame = new Button("Stop game");
-    Button btnPlayRandomMap = new Button("Play on random map");
+    Button btnPlayRandomMap = new Button("Play random hero / map");
+    Button btnPlaySelMapHero = new Button("Select hero / map");
     Button up = new Button("N");
     Button down = new Button("S");
     Button left = new Button("W");
@@ -124,9 +125,11 @@ public class ArvenarGameGUI{
         dialogHBox.setLayoutX(210); dialogHBox.setLayoutY(560);
                 
         dialogPane.setMinHeight(100); dialogPane.setMinWidth(800);
+        
         dialogPane.setStyle("-fx-background-color: rgba(0, 50, 128, 0.2); -fx-background-radius: 5;"); //transparent and rounded dialog box
         
         dialogPane.setEffect(arvfx.setShadowEffect(2.0, 2.0, 0.70, Color.AQUA, 0.3, 0.3, 0.3));
+        dialogPane.setVisible(false);
         
         
         subPane.setLayoutX(200); subPane.setLayoutY(50);
@@ -267,9 +270,10 @@ public class ArvenarGameGUI{
         
             hero.setText("Fucked");
             
-                 dialogText.setText(choosen_pc.getFname()+" was fucked up by "+rnpc.getFname()+"\n");
-                 pirate_imgv.setFitHeight(100); pirate_imgv.setFitWidth(100);
-                 dialogHBox.getChildren().add(pirate_imgv);
+                dialogPane.setVisible(true); 
+                dialogText.setText(choosen_pc.getFname()+" was fucked up by "+rnpc.getFname()+"\n");
+                pirate_imgv.setFitHeight(100); pirate_imgv.setFitWidth(100);
+                dialogHBox.getChildren().add(pirate_imgv);
     }
             else hero.setText("H");
     }
@@ -325,6 +329,8 @@ public class ArvenarGameGUI{
        
        
        public void resetGameUI(){
+        
+        dialogPane.setVisible(false);   
         dialogHBox.getChildren().remove(pirate_imgv);
         dialogText.setText(null); //reset text and image
        }
